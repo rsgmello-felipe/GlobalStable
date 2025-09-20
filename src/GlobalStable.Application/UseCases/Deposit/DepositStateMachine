@@ -1,0 +1,6 @@
+--------------------------------------------------------------------DEPOSIT-----------------------------------------------------------------------
+PENDING_DEPOSIT -> EXPIRED (CHECK)
+PENDING_DEPOSIT -> BLOCKED (CHECK)
+PENDING_DEPOSIT -> COMPLETED (CHECK)
+PENDING_DEPOSIT -> COMPLETED -> PROCESSING_REFUND -> RETURNED (CHECK)
+PENDING_DEPOSIT -> COMPLETED -> PROCESSING_REFUND -> COMPLETED            CASO DE EXTREMA ATENÇÃO!!!!

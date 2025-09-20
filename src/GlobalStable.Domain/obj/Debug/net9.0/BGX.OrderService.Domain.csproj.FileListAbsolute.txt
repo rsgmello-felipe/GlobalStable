@@ -1,0 +1,13 @@
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\bin\Debug\net9.0\BGX.GlobalStable.Domain.deps.json
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\bin\Debug\net9.0\BGX.GlobalStable.Domain.dll
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\bin\Debug\net9.0\BGX.GlobalStable.Domain.pdb
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.csproj.AssemblyReference.cache
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.AssemblyInfoInputs.cache
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.AssemblyInfo.cs
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.csproj.CoreCompileInputs.cache
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.sourcelink.json
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.dll
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\refint\BGX.GlobalStable.Domain.dll
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\BGX.GlobalStable.Domain.pdb
+C:\Users\felip\Desktop\Bluegreen\repositories\Bloquo\order-service\src\BGX.GlobalStable.Domain\obj\Debug\net9.0\ref\BGX.GlobalStable.Domain.dll

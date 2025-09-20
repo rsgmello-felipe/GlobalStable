@@ -1,0 +1,72 @@
+services:
+
+  GlobalStable-api:
+    build:
+      context: ../src
+      dockerfile: GlobalStable.API/Dockerfile
+    container_name: GlobalStable-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Postgres: Host=postgres-order;Port=5432;Database=order_db;Username=order_user;Password=order_password
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    ports:
+      - "7027:8080"
+    depends_on:
+      - postgres-order
+      - rabbitmq
+    networks:
+      - global_network
+
+  GlobalStable-worker:
+    build:
+      context: ../src
+      dockerfile: GlobalStable.BackgroundServices/Dockerfile
+    container_name: GlobalStable-worker
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Postgres: Host=postgres-globalstable;Port=5432;Database=global_db;Username=global_user;Password=global_password
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    depends_on:
+      - postgres-globalstable
+      - rabbitmq
+    networks:
+      - global_network
+
+  postgres-order:
+    image: postgres:15
+    container_name: postgres-globalstable
+    restart: always
+    environment:
+      POSTGRES_DB: global_db
+      POSTGRES_USER: global_user
+      POSTGRES_PASSWORD: global_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_globalstable_data:/var/lib/postgresql/data
+    networks:
+      - global_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"  # Porta para comunicação
+      - "15672:15672" # UI do RabbitMQ
+    networks:
+      - global_network
+
+volumes:
+  postgres_order_data:
+
+networks:
+  global_network:
+    driver: bridge

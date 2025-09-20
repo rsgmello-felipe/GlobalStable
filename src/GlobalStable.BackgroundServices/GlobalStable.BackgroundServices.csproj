@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-GlobalStable.BackgroundServices-c2eb453d-3bd1-4f7e-bd39-4946619feed9</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\GlobalSuppresions.cs" Link="GlobalSuppresions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="3.16.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
+    <PackageReference Include="NewRelic.Agent" Version="10.38.0" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GlobalStable.Application\GlobalStable.Application.csproj" />
+    <ProjectReference Include="..\GlobalStable.Infrastructure\GlobalStable.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+      <Link>.dockerignore</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+      <Link>.dockerignore</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+      <Link>.dockerignore</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+      <Link>.dockerignore</Link>
+    </None>
+  </ItemGroup>
+</Project>

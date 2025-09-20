@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\GlobalStable.API.props" />
+</Project>

@@ -1,0 +1,12 @@
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\bin\Debug\net9.0\GlobalStable.Domain.deps.json
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\bin\Debug\net9.0\GlobalStable.Domain.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\bin\Debug\net9.0\GlobalStable.Domain.pdb
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.csproj.AssemblyReference.cache
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.AssemblyInfoInputs.cache
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.AssemblyInfo.cs
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.csproj.CoreCompileInputs.cache
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\refint\GlobalStable.Domain.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.pdb
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\ref\GlobalStable.Domain.dll
