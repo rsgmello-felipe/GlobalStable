@@ -58,7 +58,6 @@ namespace GlobalStable.Infrastructure.DependencyInjection
             services.AddScoped<IOrderHistoryRepository, OrderHistoryRepository>();
             services.AddScoped<IWithdrawalOrderRepository, WithdrawalOrderRepository>();
             services.AddScoped<IDepositOrderRepository, DepositOrderRepository>();
-            services.AddScoped<IFeeConfigRepository, FeeConfigRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 

@@ -21,10 +21,11 @@
     <PackageReference Include="FluentAssertions" Version="8.1.1" />
     <PackageReference Include="NewRelic.Agent" Version="10.38.0" />
     <PackageReference Include="FluentResults" Version="3.16.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\Customer\" />
+    <Folder Include="UseCases\Quote\" />
   </ItemGroup>
 
 </Project>

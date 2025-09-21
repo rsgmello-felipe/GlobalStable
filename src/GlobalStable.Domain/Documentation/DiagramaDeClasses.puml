@@ -1,0 +1,231 @@
+@startuml
+left to right direction
+skinparam linetype ortho
+skinparam nodesep 200
+skinparam ranksep 500
+skinparam packageStyle rectangle
+
+' ===================== Customer & Account =====================
+package "Customer & Account" {
+  class Customer {
+    +Id : long
+    +Name : string
+    +TaxId : string
+    +Country : string
+    +QuoteSpread : decimal
+    +Enabled : bool
+    +CreatedAt : DateTime
+    +CreatedBy : string
+  }
+
+  class Currency {
+    +Id : long
+    +Name : string
+    +Code : string
+    +Precision : long
+    +Type : string
+  }
+
+  class Account {
+    +Id : long
+    +CustomerId : long
+    +CurrencyId : long
+    +WalletAddress : string
+    +WithdrawalPercentageFee : decimal
+    +WithdrawalFlatFee : decimal
+    +DepositPercentageFee : decimal
+    +DepositFlatFee : decimal
+    +Enabled : bool
+    +CreatedAt : DateTime
+    +CreatedBy : string
+    +LastUpdatedAt : DateTime
+    +LastUpdatedBy : string
+  }
+
+  Customer "1" -- "N" Account
+}
+
+' ===================== Orders =====================
+package "Orders" {
+  class OrderStatus {
+    +Id : long
+    +Name : string
+  }
+
+  class BlockchainNetwork {
+    +Id : long
+    +Name : string
+    +NativeCurrencyId : long
+  }
+
+  class CurrencyBlockchain {
+    +Id : long
+    +CurrencyId : long
+    +BlockchainNetworkId : long
+  }
+
+  class WithdrawalOrder {
+    +Id : long
+    +CustomerId : long
+    +AccountId : long
+    +StatusId : long
+    +StatusDescription : string
+    +GatewayPaymentId : string
+    +RequestedAmount : decimal
+    +FeeAmount : decimal
+    +TotalAmount : decimal
+    +CurrencyId : long
+    +E2EId : string
+    +ReceiverName : string
+    +ReceiverTaxId : string
+    +ReceiverAccountKey : string
+    +ReceiverWalletAddress : string
+    +BlockchainNetworkId : long
+    +CreatedAt : DateTime
+    +CreatedBy : string
+    +LastUpdatedAt : DateTime
+    +LastUpdatedBy : string
+  }
+
+  class DepositOrder {
+    +Id : long
+    +CustomerId : long
+    +AccountId : long
+    +RequestedAmount : decimal
+    +FeeAmount : decimal
+    +TotalAmount : decimal
+    +CurrencyId : long
+    +StatusId : long
+    +StatusDescription : string
+    +E2EId : string
+    +BankReference : string
+    +ExpiresAt : DateTime
+    +CreatedAt : DateTime
+    +CreatedBy : string
+    +LastUpdatedAt : DateTime
+    +LastUpdatedBy : string
+  }
+
+  class QuoteOrder {
+    +Id : long
+    +CustomerId : long
+    +StatusId : long
+    +StatusDescription : string
+    +BaseCurrencyId : long
+    +QuoteCurrencyId : long
+    +Side : string
+    +BaseAmount : decimal
+    +QuoteAmount : decimal
+    +Price : decimal
+    +FeeAmount : decimal
+    +BaseAccountId : long
+    +QuoteAccountId : long
+    +CreatedAt : DateTime
+    +CreatedBy : string
+    +LastUpdatedAt : DateTime
+    +LastUpdatedBy : string
+  }
+
+  class OrderHistory {
+    +Id : long
+    +WithdrawalOrderId : long
+    +DepositOrderId : long
+    +QuoteOrderId : long
+    +StatusId : long
+    +StatusDescription : string
+    +ChangedBy : string
+    +CreatedAt : DateTime
+  }
+
+  ' Associações principais
+  Account  "1" -- "N" WithdrawalOrder
+  Account  "1" -- "N" DepositOrder
+  Customer "1" -- "N" QuoteOrder
+
+  ' Quote usa duas contas (base e quote)
+  Account "2" -- "N" QuoteOrder
+
+  ' Status como tabela
+  WithdrawalOrder "N" -- "1" OrderStatus
+  DepositOrder    "N" -- "1" OrderStatus
+  QuoteOrder      "N" -- "1" OrderStatus
+
+  ' Currencies
+  WithdrawalOrder "N" -- "1" Currency
+  DepositOrder    "N" -- "1" Currency
+  QuoteOrder      "N" -- "2" Currency
+
+  ' Blockchain: ordens podem apontar para uma rede (opcional)
+  WithdrawalOrder "0..N" -- "0..1" BlockchainNetwork
+  DepositOrder    "0..N" -- "0..1" BlockchainNetwork
+
+  ' Moedas suportadas por redes (tabela de junção)
+  BlockchainNetwork "1" -- "N" CurrencyBlockchain
+  Currency         "1" -- "N" CurrencyBlockchain
+
+  ' Moeda nativa da rede
+  BlockchainNetwork "N" -- "1" Currency
+
+  ' Histórico por ordem
+  WithdrawalOrder "1" -- "0..N" OrderHistory
+  DepositOrder    "1" -- "0..N" OrderHistory
+  QuoteOrder      "1" -- "0..N" OrderHistory
+
+  OrderHistory "N" -- "1" OrderStatus
+}
+
+' ===================== Ledger =====================
+package "Ledger" {
+  class BalanceSnapshot {
+    +Id : long
+    +AccountId : long
+    +CustomerId : long
+    +IntervalBalance : decimal
+    +TotalBalance : decimal
+    +LastTransactionId : string
+    +PreviousBalanceSnapshotId : string
+    +CreatedAt : DateTime
+  }
+
+  class Transaction {
+    +Id : long
+    +AccountId : long
+    +CustomerId : long
+    +Type : string
+    +Amount : decimal
+    +CurrencyId : long
+    +OrderId : long
+    +OrderType : string
+    +CreatedAt : DateTime
+    +CreatedBy : string
+  }
+
+  class PendingTransaction {
+    +Id : long
+    +AccountId : long
+    +CustomerId : long
+    +Type : string
+    +Amount : decimal
+    +CurrencyId : long
+    +OrderType : string
+    +OrderId : long
+    +CreatedAt : DateTime
+    +CreatedBy : string
+  }
+
+  Account "1" -- "N" BalanceSnapshot
+  Account "1" -- "N" Transaction
+  Account "1" -- "N" PendingTransaction
+
+  ' Transações ligadas às ordens
+  WithdrawalOrder "1" -- "0..*" Transaction
+  DepositOrder    "1" -- "0..*" Transaction
+  QuoteOrder      "1" -- "0..*" Transaction
+
+  ' Pendências ligadas às ordens
+  WithdrawalOrder "1" -- "0..*" PendingTransaction
+  DepositOrder    "1" -- "0..*" PendingTransaction
+  QuoteOrder      "1" -- "0..*" PendingTransaction
+}
+
+@enduml

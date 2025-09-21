@@ -59,11 +59,6 @@ public class WithdrawalOrderResponse
     public string? ReceiverName { get; set; }
 
     /// <summary>
-    /// The user who created the order.
-    /// </summary>
-    public string? WebhhokUrl { get; set; }
-
-    /// <summary>
     /// EndToEnd ID associated to this order.
     /// </summary>
     public string? E2eId { get; set; }
@@ -105,10 +100,9 @@ public class WithdrawalOrderResponse
         ReceiverTaxId = order.ReceiverTaxId;
         ReceiverAccountKey = order.ReceiverAccountKey;
         ReceiverWalletAddress = order.ReceiverWalletAddress;
-        ReceiverBlockchain = order.ReceiverBlockchain;
-        ReceiverName = order.Name;
+        ReceiverBlockchain = order.BlockchainNetworkId;
+        ReceiverName = order.ReceiverName;
         E2eId = order.E2EId;
-        WebhhokUrl = order.WebhookUrl;
         Currency = currencyCode;
         CreatedAt = order.CreatedAt;
         LastUpdatedAt = order.LastUpdatedAt;
@@ -118,7 +112,7 @@ public class WithdrawalOrderResponse
             .Select(h => new OrderHistoryDto
             {
                 StatusName = statuses.TryGetValue(h.StatusId, out var name) ? name : "Unknown",
-                Description = h.Description,
+                Description = h.StatusDescription,
                 CreatedAt = h.CreatedAt,
             })
             .ToList();

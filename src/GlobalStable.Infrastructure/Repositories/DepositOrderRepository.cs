@@ -71,16 +71,6 @@ public class DepositOrderRepository(ServiceDbContext dbContext)
             query = query.Where(x => x.StatusId == statusId.Value);
         }
 
-        if (!string.IsNullOrWhiteSpace(taxId))
-        {
-            query = query.Where(x => x.PayerTaxId != null && EF.Functions.ILike(x.PayerTaxId, $"%{taxId}%"));
-        }
-
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-            query = query.Where(x => x.Name != null && EF.Functions.ILike(x.Name, $"%{name}%"));
-        }
-
         if (!string.IsNullOrWhiteSpace(e2eId))
         {
             query = query.Where(x => x.E2EId == e2eId);

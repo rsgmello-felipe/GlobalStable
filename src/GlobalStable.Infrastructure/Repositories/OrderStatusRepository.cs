@@ -11,13 +11,13 @@ public class OrderStatusRepository(ServiceDbContext dbContext)
 {
     public async Task<OrderStatus?> GetByIdAsync(long orderStatusId)
     {
-        return await dbContext.RefOrderStatuses
+        return await dbContext.OrderStatuses
             .FirstOrDefaultAsync(wo => wo.Id == orderStatusId);
     }
 
     public async Task<long?> GetStatusIdByNameAsync(string statusName)
     {
-        return await dbContext.RefOrderStatuses
+        return await dbContext.OrderStatuses
             .Where(s => EF.Functions.ILike(s.Name, $"%{statusName}%"))
             .Select(s => (long?)s.Id)
             .FirstOrDefaultAsync();
@@ -25,7 +25,7 @@ public class OrderStatusRepository(ServiceDbContext dbContext)
 
     public async Task<OrderStatus?> GetByNameAsync(string name)
     {
-        return await dbContext.RefOrderStatuses
+        return await dbContext.OrderStatuses
             .Where(s => EF.Functions.ILike(s.Name, $"%{name}%"))
             .FirstOrDefaultAsync();
 
@@ -33,12 +33,12 @@ public class OrderStatusRepository(ServiceDbContext dbContext)
 
     public async Task<IEnumerable<OrderStatus>> GetAllAsync()
     {
-        return await dbContext.RefOrderStatuses.ToListAsync();
+        return await dbContext.OrderStatuses.ToListAsync();
     }
 
     public async Task<Dictionary<long, string>> GetAllAsDictionaryAsync()
     {
-        return await dbContext.RefOrderStatuses
+        return await dbContext.OrderStatuses
             .AsNoTracking()
             .ToDictionaryAsync(s => s.Id, s => s.Name);
     }

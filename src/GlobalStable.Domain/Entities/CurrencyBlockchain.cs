@@ -6,6 +6,8 @@ public class CurrencyBlockchain : EntityBase
 
     public long BlockchainNetworkId { get; private set; }
 
+    public CurrencyBlockchain(){}
+    
     public CurrencyBlockchain(long currencyId, long blockchainNetworkId)
     {
         CurrencyId = currencyId;

@@ -8,6 +8,12 @@ namespace GlobalStable.Domain.Entities;
 public class WithdrawalOrder : EntityBase
 {
     public long AccountId { get; private set; }
+    
+    public long CustomerId { get; private set; }
+
+    public long StatusId { get; private set; }
+    
+    public string? StatusDescription { get; private set; }
 
     public decimal RequestedAmount { get; private set; }
 
@@ -16,43 +22,31 @@ public class WithdrawalOrder : EntityBase
     public decimal TotalAmount { get; private set; }
 
     public long CurrencyId { get; private set; }
-
-    public Currency Currency { get; private set; }
-
-    public long StatusId { get; private set; }
-
-    public string? StatusDescription { get; private set; }
-
-    public string Name { get; private set; }
-
+    
     public string? E2EId { get; private set; }
 
-    public string? BankId { get; private set; }
-
+    public string ReceiverName { get; private set; }
+    
     public string? ReceiverTaxId { get; private set; }
 
     public string? ReceiverAccountKey { get; private set; }
 
     public string? ReceiverWalletAddress { get; private set; }
 
-    public string? ReceiverBlockchain { get; private set; }
-
-    public string? WebhookUrl { get; private set; }
-
-    public string Origin { get; private set; }
-
+    public string? BlockchainNetworkId { get; private set; }
+    
     public DateTimeOffset LastUpdatedAt { get; private set; }
 
     public string LastUpdatedBy { get; private set; }
 
     public ICollection<OrderHistory> OrderHistory { get; private set; } = new List<OrderHistory>();
 
+    public Currency Currency { get; private set; }
+    
     private WithdrawalOrder() { }
 
     public WithdrawalOrder(
-        long customerId,
         long accountId,
-        bool isAutomated,
         decimal requestedAmount,
         decimal feeAmount,
         decimal totalAmount,
@@ -65,26 +59,22 @@ public class WithdrawalOrder : EntityBase
         string? receiverTaxId,
         string? receiverAccountKey,
         string? receiverWalletAddress,
-        string? receiverBlockchain,
+        string? blockchainNetworkId,
         string? webhookUrl,
         string createdBy)
     {
-        CustomerId = customerId;
         AccountId = accountId;
         RequestedAmount = requestedAmount;
         FeeAmount = feeAmount;
         TotalAmount = totalAmount;
         CurrencyId = currencyId;
         StatusId = statusId;
-        Name = name;
-        Origin = origin;
+        ReceiverName = name;
         E2EId = e2eId;
-        BankId = bankId;
         ReceiverTaxId = receiverTaxId;
         ReceiverAccountKey = receiverAccountKey;
         ReceiverWalletAddress = receiverWalletAddress;
-        ReceiverBlockchain = receiverBlockchain;
-        WebhookUrl = webhookUrl;
+        BlockchainNetworkId = blockchainNetworkId;
         CreatedAt = DateTime.UtcNow;
         CreatedBy = createdBy;
         LastUpdatedAt = DateTime.UtcNow;
@@ -95,7 +85,7 @@ public class WithdrawalOrder : EntityBase
             new(
                 withdrawalOrderId: Id,
                 depositOrderOrderId: null,
-                TransactionOrderType.Withdrawal,
+                OrderType.Withdrawal,
                 statusId,
                 createdBy),
         };
@@ -131,18 +121,16 @@ public class WithdrawalOrder : EntityBase
         OrderHistory.Add(new OrderHistory(
             withdrawalOrderId: Id,
             null,
-            TransactionOrderType.Withdrawal,
+            OrderType.Withdrawal,
             newStatus.Id,
             updatedBy,
             description));
     }
 
     public void UpdateBankTransactionInformation(
-        string? bankId = null,
         string? reason = null,
         string? E2eId = null)
     {
-        BankId = bankId;
         E2EId = E2eId;
         StatusDescription = reason;
     }

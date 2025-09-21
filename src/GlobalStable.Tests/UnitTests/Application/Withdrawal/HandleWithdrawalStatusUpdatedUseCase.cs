@@ -209,7 +209,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
-            receiverBlockchain: null,
+            blockchainNetworkId: null,
             null,
             "tester");
         withdrawalOrder = SetCurrency(withdrawalOrder, currency);
@@ -379,7 +379,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
-            receiverBlockchain: null,
+            blockchainNetworkId: null,
             webhookUrl: null,
             createdBy: "tester");
 
@@ -491,7 +491,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
-            receiverBlockchain: null,
+            blockchainNetworkId: null,
             webhookUrl: null,
             createdBy: "tester");
 

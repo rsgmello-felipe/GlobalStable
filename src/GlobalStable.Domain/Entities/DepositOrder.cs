@@ -4,9 +4,9 @@ namespace GlobalStable.Domain.Entities;
 
 public class DepositOrder : EntityBase
 {
-    public long CustomerId { get; private set; }
-
     public long AccountId { get; private set; }
+    
+    public long CustomerId { get; private set; }
 
     public decimal RequestedAmount { get; private set; }
 
@@ -16,30 +16,27 @@ public class DepositOrder : EntityBase
 
     public long CurrencyId { get; private set; }
 
-    public Currency Currency { get; private set; }
-
     public long StatusId { get; private set; }
 
     public string? StatusDescription { get; private set; }
-
-    public string? Name { get; private set; }
-
-    public string? PixCopyPaste { get; private set; }
-
+    
     public string? E2EId { get; private set; }
 
     public string? BankReference { get; private set; }
 
-    public string WebhookUrl { get; private set; }
+    public string? WalletAddress { get; private set; }
+
+    public string? BlockchainNetworkId { get; private set; }
     
     public DateTimeOffset ExpireAt { get; private set; }
-
-    public ICollection<OrderHistory> OrderHistory { get; private set; } = new List<OrderHistory>();
-
+    
     public DateTimeOffset LastUpdatedAt { get; private set; }
 
     public string LastUpdatedBy { get; private set; }
 
+    public Currency Currency { get; private set; }
+
+    public ICollection<OrderHistory> OrderHistory { get; private set; } = new List<OrderHistory>();
     private DepositOrder() { }
 
     public DepositOrder(
@@ -51,16 +48,11 @@ public class DepositOrder : EntityBase
         long currencyId,
         long statusId,
         string? bankReference,
-        string webhookUrl,
         DateTimeOffset expireAt,
         string createdBy,
-        string? pixCopyPaste = null,
-        string? cvu = null,
         string? e2eId = null,
-        string? statusDescription = null,
-        string? name = null)
+        string? statusDescription = null)
     {
-        CustomerId = customerId;
         AccountId = accountId;
         RequestedAmount = requestedAmount;
         FeeAmount = feeAmount;
@@ -68,11 +60,8 @@ public class DepositOrder : EntityBase
         CurrencyId = currencyId;
         StatusId = statusId;
         StatusDescription = statusDescription;
-        Name = name;
         E2EId = e2eId;
-        PixCopyPaste = pixCopyPaste;
         BankReference = bankReference;
-        WebhookUrl = webhookUrl;
         ExpireAt = expireAt;
         CreatedAt = DateTime.UtcNow;
         CreatedBy = createdBy;
@@ -84,7 +73,7 @@ public class DepositOrder : EntityBase
             new(
                 withdrawalOrderId: null,
                 depositOrderOrderId: Id,
-                TransactionOrderType.Deposit,
+                OrderType.Deposit,
                 statusId,
                 createdBy),
         };
@@ -93,7 +82,6 @@ public class DepositOrder : EntityBase
     public void UpdateStatus(
         OrderStatus newStatus,
         string updatedBy,
-        string? bankId = null,
         string? e2eId = null,
         string? statusDescription = null)
     {
@@ -116,7 +104,7 @@ public class DepositOrder : EntityBase
         OrderHistory.Add(new OrderHistory(
             null,
             depositOrderOrderId: Id,
-            TransactionOrderType.Deposit,
+            OrderType.Deposit,
             newStatus.Id,
             updatedBy));
     }
@@ -124,13 +112,10 @@ public class DepositOrder : EntityBase
     public void UpdateBankTransactionInformation(
         string? reason = null,
         string? E2eId = null,
-        string? pixCopyPaste = null,
-        string? cvu = null,
         string? referenceId = null)
     {
         E2EId = E2eId;
         StatusDescription = reason;
         BankReference = referenceId;
-        PixCopyPaste = pixCopyPaste;
     }
 }

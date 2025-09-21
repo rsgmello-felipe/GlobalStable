@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Y0+JNoQKnQc=",
+  "dgSpecHash": "0dHF9Z+aM7A=",
   "success": true,
   "projectFilePath": "C:\\Users\\felip\\Desktop\\GlobalStableCode\\src\\GlobalStable.Infrastructure\\GlobalStable.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -53,8 +53,6 @@
     "C:\\Users\\felip\\.nuget\\packages\\refit\\8.0.0\\refit.8.0.0.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\refit.httpclientfactory\\8.0.0\\refit.httpclientfactory.8.0.0.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\stackexchange.redis\\2.7.27\\stackexchange.redis.2.7.27.nupkg.sha512",
-    "C:\\Users\\felip\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.556\\stylecop.analyzers.1.2.0-beta.556.nupkg.sha512",
-    "C:\\Users\\felip\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.556\\stylecop.analyzers.unstable.1.2.0.556.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\system.collections.immutable\\7.0.0\\system.collections.immutable.7.0.0.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\system.composition\\7.0.0\\system.composition.7.0.0.nupkg.sha512",

@@ -3,18 +3,17 @@ using GlobalStable.Domain.Enums;
 
 namespace GlobalStable.Domain.Entities;
 
-public class QuoteOrder
+public class QuoteOrder : EntityBase
 {
-    [ForeignKey(nameof(BaseCurrency))]
+    public long CustomerId { get; private set; }
+    
+    public string StatusId { get; private set; }
+    
+    public string StatusDescription { get; private set; }
     public long BaseCurrencyId { get; private set; }
 
-    public Project.Domain.Entities.Lookup.Currency BaseCurrency { get; private set; } = null!;
-
-    [ForeignKey(nameof(QuoteCurrency))]
     public long QuoteCurrencyId { get; private set; }
-
-    public Project.Domain.Entities.Lookup.Currency QuoteCurrency { get; private set; } = null!;
-
+    
     public Side Side { get; private set; }
 
     [Column(TypeName = "numeric(38, 18)")]
@@ -23,7 +22,25 @@ public class QuoteOrder
     [Column(TypeName = "numeric(38, 18)")]
     public decimal? QuoteAmount { get; private set; }
 
-    public DateTimeOffset? AcceptedAt { get; private set; }
+    [Column(TypeName = "numeric(38, 18)")]
+    public decimal? Price { get; private set; }
+    
+    [Column(TypeName = "numeric(38, 18)")]
+    public decimal? FeeAmount { get; private set; }
+    
+    public long BaseAccountId { get; private set; }
+
+    public long QuoteAccountId { get; private set; }
+    
+    public DateTimeOffset LastUpdatedAt { get; private set; }
+    
+    public string LastUpdatedBy { get; private set; }
+    
+    public Currency BaseCurrency { get; private set; }
+    
+    public Currency QuoteCurrency { get; private set; }
+    
+    public QuoteOrder(){}
 
     public QuoteOrder(
         long customerId,
@@ -32,18 +49,13 @@ public class QuoteOrder
         Side side,
         decimal? baseAmount = null,
         decimal? quoteAmount = null,
-        string? description = null) : base(customerId, description)
+        string? description = null)
     {
+        CustomerId = customerId;
         BaseCurrencyId = baseCurrencyId;
         QuoteCurrencyId = quoteCurrencyId;
         Side = side;
         BaseAmount = baseAmount;
         QuoteAmount = quoteAmount;
-    }
-
-    public void Accept()
-    {
-        AcceptedAt = DateTimeOffset.UtcNow;
-        SetStatus(OrderStatus.Validated);
     }
 }

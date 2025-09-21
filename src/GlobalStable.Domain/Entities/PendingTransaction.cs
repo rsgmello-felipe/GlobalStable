@@ -4,44 +4,37 @@ using GlobalStable.Domain.Enums;
 
 namespace GlobalStable.Domain.Entities;
 
-public class PendingTransaction
+public class PendingTransaction : EntityBase
 {
-    [Key]
-    public long Id { get; private set; }
-
-    [ForeignKey(nameof(Account))]
     public long AccountId { get; private set; }
-
-    public Project.Domain.Entities.Core.Account Account { get; private set; } = null!;
-
-    [ForeignKey(nameof(Currency))]
-    public long CurrencyId { get; private set; }
-
-    public Currency Currency { get; private set; } = null!;
+    
+    public long CustomerId { get; private set; }
 
     public TransactionType Type { get; private set; }
 
-    public TransactionOrderType OrderType { get; private set; }
-
-    [Column(TypeName = "numeric(38, 18)")]
     public decimal Amount { get; private set; }
+    
+    public long CurrencyId { get; private set; }
 
     public long OrderId { get; private set; }
+    
+    public TransactionOrderType OrderType { get; private set; }
+    
+    public Currency Currency { get; private set; }
 
-
-    public DateTimeOffset CreatedAt { get; private set; } = DateTimeOffset.UtcNow;
-
-
+    public PendingTransaction(){}
+    
     public PendingTransaction(
         long accountId,
-        long currencyId,
+        long customerId,
         TransactionType type,
-        TransactionOrderType orderType,
         decimal amount,
+        long currencyId,
         long orderId,
-        DateTimeOffset? expiresAt = null)
+        TransactionOrderType orderType)
     {
         AccountId = accountId;
+        CustomerId = customerId;
         CurrencyId = currencyId;
         Type = type;
         OrderType = orderType;

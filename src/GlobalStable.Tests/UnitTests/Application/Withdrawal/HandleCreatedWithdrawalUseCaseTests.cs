@@ -60,7 +60,7 @@ public class HandleCreatedWithdrawalUseCaseTests
             receiverAccountKey: "18997933728",
             receiverTaxId: "18997933728",
             receiverWalletAddress: null,
-            receiverBlockchain: null,
+            blockchainNetworkId: null,
             webhookUrl: null,
             createdBy: "tester");
 

@@ -6,5 +6,6 @@ namespace GlobalStable.Domain.Enums;
 public enum OrderType
 {
     Deposit = 1,
-    Withdraw = 2,
+    Withdrawal = 2,
+    Quote = 3
 }

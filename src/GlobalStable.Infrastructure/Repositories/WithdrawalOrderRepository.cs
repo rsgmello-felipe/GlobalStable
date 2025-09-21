@@ -106,7 +106,7 @@ public class WithdrawalOrderRepository(ServiceDbContext dbContext)
 
         if (!string.IsNullOrWhiteSpace(name))
         {
-            query = query.Where(x => x.Name != null && EF.Functions.ILike(x.Name, $"%{name}%"));
+            query = query.Where(x => EF.Functions.ILike(x.ReceiverName, $"%{name}%"));
         }
 
         if (!string.IsNullOrWhiteSpace(e2eId))

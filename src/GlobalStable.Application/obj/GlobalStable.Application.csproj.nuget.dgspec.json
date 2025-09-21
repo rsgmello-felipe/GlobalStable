@@ -81,12 +81,6 @@
             "NewRelic.Agent": {
               "target": "Package",
               "version": "[10.38.0, )"
-            },
-            "StyleCop.Analyzers": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[1.2.0-beta.556, )"
             }
           },
           "imports": [
@@ -167,12 +161,6 @@
             "Refit": {
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "StyleCop.Analyzers": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[1.2.0-beta.556, )"
             }
           },
           "imports": [
@@ -305,12 +293,6 @@
             "Refit.HttpClientFactory": {
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "StyleCop.Analyzers": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[1.2.0-beta.556, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

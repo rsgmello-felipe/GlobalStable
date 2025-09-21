@@ -62,7 +62,7 @@ public class GetWithdrawalOrdersUseCaseTests
             receiverTaxId: "22500432807",
             receiverAccountKey: "22500432807",
             receiverWalletAddress: null,
-            receiverBlockchain: null);
+            blockchainNetworkId: null);
 
         typeof(WithdrawalOrder).GetProperty(nameof(WithdrawalOrder.Currency))!
             .SetValue(withdrawalOrder, currency);

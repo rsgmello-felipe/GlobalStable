@@ -10,28 +10,30 @@ public class OrderHistory : EntityBase
     public long? WithdrawalOrderId { get; private set; }
 
     public long? DepositOrderId { get; private set; }
-
-    public TransactionOrderType TransactionOrderType { get; private set; }
+    
+    public long? QuoteOrderId { get; private set; }
 
     public long StatusId { get; private set; }
-
-    public string? Description { get; private set; }
+    
+    public string? StatusDescription { get; private set; }
+    
+    public OrderType OrderType { get; private set; }
 
     public OrderHistory() {}
 
     public OrderHistory(
         long? withdrawalOrderId,
         long? depositOrderOrderId,
-        TransactionOrderType transactionOrderType,
+        OrderType orderType,
         long statusId,
         string createdBy,
-        string? description = null)
+        string? statusDescription = null)
     {
         WithdrawalOrderId = withdrawalOrderId;
         DepositOrderId = depositOrderOrderId;
-        TransactionOrderType = transactionOrderType;
+        OrderType = orderType;
         StatusId = statusId;
         CreatedBy = createdBy;
-        Description = description;
+        StatusDescription = statusDescription;
     }
 }

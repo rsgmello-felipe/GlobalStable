@@ -22,14 +22,9 @@ public class DepositOrderResponse
 
     public string CreatedBy { get; private set; }
 
-    public string? PixCopyPaste { get; private set; }
 
     public string? E2eId { get; private set; }
-
-    public string? Cvu { get; private set; }
-
-    public string? Name { get; private set; }
-
+    
     public DateTimeOffset ExpireAt { get; private set; }
 
     public string? Status { get; private set; }
@@ -51,9 +46,6 @@ public class DepositOrderResponse
         CustomerId = order.CustomerId;
         RequestedAmount = order.RequestedAmount;
         TotalAmount = order.TotalAmount;
-        PixCopyPaste = pixCopyAndPaste;
-        Cvu = cvu;
-        Name = order.Name;
         E2eId = order.E2EId;
         Currency = currencyName;
         CreatedBy = order.CreatedBy;
@@ -64,7 +56,7 @@ public class DepositOrderResponse
             .Select(h => new OrderHistoryDto
             {
                 StatusName = statuses.TryGetValue(h.StatusId, out var name) ? name : "Unknown",
-                Description = h.Description,
+                Description = h.StatusDescription,
                 CreatedAt = h.CreatedAt,
             })
             .ToList();
@@ -88,10 +80,7 @@ public class DepositOrderResponse
         TotalAmount = order.TotalAmount;
         CreatedBy = order.CreatedBy;
         Currency = currencyCode;
-        PixCopyPaste = order.PixCopyPaste;
-        Cvu = order.Cvu;
         E2eId = order.E2EId;
-        Name = order.Name;
         ExpireAt = order.ExpireAt;
 
         OrderHistory = order.OrderHistory
@@ -99,7 +88,7 @@ public class DepositOrderResponse
             .Select(h => new OrderHistoryDto
             {
                 StatusName = statuses.TryGetValue(h.StatusId, out var name) ? name : "Unknown",
-                Description = h.Description,
+                Description = h.StatusDescription,
                 CreatedAt = h.CreatedAt,
             })
             .ToList();

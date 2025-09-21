@@ -84,7 +84,7 @@ public class CreateWithdrawalOrderUseCase(
                 receiverTaxId: request.ReceiverTaxId,
                 receiverAccountKey: request.ReceiverAccountKey,
                 receiverWalletAddress: request.ReceiverWalletAddress,
-                receiverBlockchain: request.ReceiverBlockchain,
+                blockchainNetworkId: request.ReceiverBlockchain,
                 webhookUrl: request.WebhookUrl,
                 createdBy: username);
 
