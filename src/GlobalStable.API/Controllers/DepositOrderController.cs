@@ -2,7 +2,7 @@
 using Asp.Versioning;
 using GlobalStable.Application.ApiRequests;
 using GlobalStable.Application.ApiResponses;
-using GlobalStable.Application.UseCases.Deposit;
+using GlobalStable.Application.UseCases.DepositUseCases;
 using GlobalStable.Domain.Constants;
 using Microsoft.AspNetCore.Mvc;
 

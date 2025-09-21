@@ -158,7 +158,7 @@ namespace GlobalStable.Infrastructure.DependencyInjection
                 .ConfigureHttpClient(c => c.BaseAddress = transactionServiceBaseAddress);
 
             services
-                .AddRefitClient<IBgpConnectorClient>()
+                .AddRefitClient<IBrlProviderClient>()
                 .ConfigureHttpClient(c => c.BaseAddress = bgpConnectorBaseAddress);
 
             services

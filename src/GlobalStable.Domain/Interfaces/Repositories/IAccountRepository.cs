@@ -9,5 +9,7 @@ namespace GlobalStable.Domain.Interfaces.Repositories;
 /// </summary>
 public interface IAccountRepository : IRepository<Account>
 {
-    Task<Account?> GetByIdAsync(long id);
+    Task<IEnumerable<Account?>> GetByCustomerId(long customerId);
+
+    Task<bool> CheckIfAccountExists(long customerId, long currencyId);
 }

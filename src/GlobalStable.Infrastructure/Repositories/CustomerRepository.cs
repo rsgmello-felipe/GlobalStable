@@ -5,50 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalStable.Infrastructure.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository(ServiceDbContext context) 
+        : Repository<Customer>(context), ICustomerRepository
     {
-        private readonly ServiceDbContext _context;
-
-        public CustomerRepository(ServiceDbContext context)
+        public async Task<Customer?> GetByTaxIdAsync(
+            string taxId,
+            string country)
         {
-            _context = context;
-        }
-
-        public async Task<Customer> AddAsync(Customer entity)
-        {
-            await _context.Customers.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<Customer> GetByIdAsync(long id)
-        {
-            return await _context.Customers
-                .FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<Customer> GetByDocumentAsync(string document)
-        {
-            return await _context.Customers
-                .FirstOrDefaultAsync(x => x.Document == document);
-        }
-
-        public async Task<IEnumerable<Customer>> GetAllAsync()
-        {
-            return await _context.Customers.ToListAsync();
-        }
-
-        public async Task<Customer> UpdateAsync(Customer entity)
-        {
-            _context.Customers.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task RemoveAsync(Customer entity)
-        {
-            _context.Customers.Remove(entity);
-            await _context.SaveChangesAsync();
+            return await context.Customers
+                .FirstOrDefaultAsync(c => 
+                    c.TaxId == taxId && 
+                    c.Country == country);
         }
     }
 }

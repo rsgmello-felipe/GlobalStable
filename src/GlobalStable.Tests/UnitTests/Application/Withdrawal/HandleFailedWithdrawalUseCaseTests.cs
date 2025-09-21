@@ -10,6 +10,7 @@ using GlobalStable.Infrastructure.HttpClients;
 using GlobalStable.Infrastructure.HttpClients.ApiResponses;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 using Microsoft.Extensions.Logging;
 using Refit;
 

@@ -14,12 +14,27 @@ public class AccountRepository(ServiceDbContext dbContext)
     : Repository<Account>(dbContext),
         IAccountRepository
 {
-    public async Task<Account?> GetByIdAsync(long id)
+    public async Task<IEnumerable<Account?>> GetByCustomerId(long customerId)
     {
         var account = await dbContext.Accounts
+            .AsNoTracking()
             .Include(a => a.Currency)
-            .FirstOrDefaultAsync(a => a.Id == id);
+            .Where(a => a.CustomerId == customerId && a.Enabled)
+            .ToListAsync();
 
         return account;
+    }
+    
+    public async Task<bool> CheckIfAccountExists(long customerId, long currencyId)
+    {
+        var accountExists = await dbContext.Accounts
+            .AsNoTracking()
+            .Where(a => 
+                a.CustomerId == customerId && 
+                a.CurrencyId == currencyId && 
+                a.Enabled)
+            .AnyAsync();
+
+        return accountExists;
     }
 }

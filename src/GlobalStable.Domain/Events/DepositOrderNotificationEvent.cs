@@ -10,13 +10,12 @@ public class DepositOrderNotificationEvent
 
     public long CustomerId { get; set; }
 
-    public string? WebhookUrl { get; set; }
 
     public decimal Amount { get; set; }
 
-    public string Currency { get; set; } = string.Empty;
+    public string Currency { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public string Status { get; set; }
 
     public DateTimeOffset FinalizedAt { get; set; }
 
@@ -27,7 +26,6 @@ public class DepositOrderNotificationEvent
         string orderType,
         long accountId,
         long customerId,
-        string? webhookUrl,
         decimal amount,
         string currency,
         string status,
@@ -38,7 +36,6 @@ public class DepositOrderNotificationEvent
         OrderType = orderType;
         AccountId = accountId;
         CustomerId = customerId;
-        WebhookUrl = webhookUrl;
         Amount = amount;
         Currency = currency;
         Status = status;

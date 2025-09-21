@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoFakeItEasy;
 using AutoFixture.Xunit2;
-using GlobalStable.Application.UseCases.Deposit;
 using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Events;
@@ -9,6 +8,7 @@ using GlobalStable.Domain.Interfaces.Messaging;
 using GlobalStable.Domain.Interfaces.Repositories;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.DepositUseCases;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalStable.Tests.UnitTests.Application.Deposit;

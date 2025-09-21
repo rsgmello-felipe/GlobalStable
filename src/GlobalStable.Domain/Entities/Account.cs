@@ -31,7 +31,6 @@ public class Account : EntityBase
     }
 
     public Account(
-        long id,
         string name,
         long customerId,
         long currencyId,
@@ -39,13 +38,9 @@ public class Account : EntityBase
         decimal withdrawalFlatFee,
         decimal depositPercentageFee,
         decimal depositFlatFee,
-        DateTimeOffset createdAt,
         string createdBy,
-        DateTimeOffset lastUpdatedAt,
-        string lastUpdatedBy,
         string? walletAddress = null)
     {
-        Id = id;
         Name = name;
         CustomerId = customerId;
         CurrencyId = currencyId;
@@ -55,26 +50,22 @@ public class Account : EntityBase
         DepositPercentageFee = depositPercentageFee;
         DepositFlatFee = depositFlatFee;
         Enabled = true;
-        CreatedAt = createdAt;
+        CreatedAt = DateTimeOffset.Now;
         CreatedBy = createdBy;
-        LastUpdatedAt = lastUpdatedAt;
-        LastUpdatedBy = lastUpdatedBy;
+        LastUpdatedAt = DateTimeOffset.Now;
+        LastUpdatedBy = createdBy;
     }
 
     public void UpdateAccount(
-        bool automaticApproval,
-        bool automaticExecute,
-        string name,
-        decimal maxAllowedDebt,
-        string? walletAddress,
-        bool enabled,
-        DateTimeOffset lastUpdatedAt,
-        string lastUpdatedBy)
+        string lastUpdatedBy,
+        string? name = null,
+        string? walletAddress = null,
+        bool? enabled = null)
     {
-        Name = name;
-        WalletAddress = walletAddress;
-        Enabled = enabled;
-        LastUpdatedAt = lastUpdatedAt;
+        Name = name ?? Name;
+        WalletAddress = walletAddress ?? WalletAddress;
+        Enabled = enabled ?? Enabled;
+        LastUpdatedAt = DateTimeOffset.Now;
         LastUpdatedBy = lastUpdatedBy;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using GlobalStable.Domain.Entities;
+﻿using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -24,11 +23,11 @@ namespace GlobalStable.Infrastructure.Persistence
 
         public DbSet<OrderStatus> OrderStatuses { get; set; }
 
-        public DbSet<BlockchainNetwork> BlockchainNetworks { get; set; }
+        public DbSet<BlockchainNetwork?> BlockchainNetworks { get; set; }
 
         public DbSet<CurrencyBlockchain> CurrencyBlockchains { get; set; }
 
-        public DbSet<BalanceSnapshot> BalanceSnapshots { get; set; }
+        public DbSet<BalanceSnapshot?> BalanceSnapshots { get; set; }
 
         public DbSet<Transaction> Transactions { get; set; }
 
@@ -44,34 +43,95 @@ namespace GlobalStable.Infrastructure.Persistence
             {
                 entity.ToTable("customer");
                 entity.HasKey(c => c.Id);
-                entity.Property(c => c.Id).HasColumnName("id").UseIdentityColumn();
-                entity.Property(c => c.Name).HasColumnName("name").IsRequired();
-                entity.Property(c => c.TaxId).HasColumnName("tax_id").IsRequired();
-                entity.Property(c => c.Country).HasColumnName("country").IsRequired();
-                entity.Property(c => c.QuoteSpread).HasColumnName("quote_spread").IsRequired();
-                entity.Property(c => c.Enabled).HasColumnName("enabled").IsRequired();
-                entity.Property(c => c.CreatedAt).HasColumnName("created_at").IsRequired();
-                entity.Property(c => c.CreatedBy).HasColumnName("created_by").IsRequired();
+                entity.Property(c => c.Id)
+                    .HasColumnName("id")
+                    .UseIdentityColumn();
+                
+                entity.Property(c => c.Name)
+                    .HasColumnName("name")
+                    .IsRequired();
+                
+                entity.Property(c => c.TaxId)
+                    .HasColumnName("tax_id")
+                    .IsRequired();
+                
+                entity.Property(c => c.Country)
+                    .HasColumnName("country")
+                    .IsRequired();
+                
+                entity.Property(c => c.QuoteSpread)
+                    .HasColumnName("quote_spread")
+                    .IsRequired();
+                
+                entity.Property(c => c.Enabled)
+                    .HasColumnName("enabled")
+                    .IsRequired();
+                
+                entity.Property(c => c.CreatedAt)
+                    .HasColumnName("created_at")
+                    .IsRequired();
+                
+                entity.Property(c => c.CreatedBy)
+                    .HasColumnName("created_by")
+                    .IsRequired();
             });
 
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("account");
+                
                 entity.HasKey(a => a.Id);
-                entity.Property(a => a.Id).HasColumnName("id").UseIdentityColumn();
-                entity.Property(a => a.Name).HasColumnName("name").IsRequired();
-                entity.Property(a => a.CustomerId).HasColumnName("customer_id").IsRequired();
-                entity.Property(a => a.CurrencyId).HasColumnName("currency_id").IsRequired();
-                entity.Property(a => a.WalletAddress).HasColumnName("wallet_address");
-                entity.Property(a => a.WithdrawalPercentageFee).HasColumnName("withdrawal_percentage_fee");
-                entity.Property(a => a.WithdrawalFlatFee).HasColumnName("withdrawal_flat_fee");
-                entity.Property(a => a.DepositPercentageFee).HasColumnName("deposit_percentage_fee");
-                entity.Property(a => a.DepositFlatFee).HasColumnName("deposit_flat_fee");
-                entity.Property(a => a.Enabled).HasColumnName("enabled").IsRequired();
-                entity.Property(a => a.LastUpdatedAt).HasColumnName("last_updated_at").HasDefaultValueSql("NOW()");
-                entity.Property(a => a.LastUpdatedBy).HasColumnName("last_updated_by").HasMaxLength(100).IsRequired();
-                entity.Property(a => a.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("NOW()");
-                entity.Property(a => a.CreatedBy).HasColumnName("created_by").HasMaxLength(100).IsRequired();
+                entity.Property(a => a.Id)
+                    .HasColumnName("id")
+                    .UseIdentityColumn();
+                
+                entity.Property(a => a.Name)
+                    .HasColumnName("name")
+                    .IsRequired();
+                
+                entity.Property(a => a.CustomerId)
+                    .HasColumnName("customer_id")
+                    .IsRequired();
+                
+                entity.Property(a => a.CurrencyId)
+                    .HasColumnName("currency_id")
+                    .IsRequired();
+                entity.Property(a => a.WalletAddress)
+                    .HasColumnName("wallet_address");
+                
+                entity.Property(a => a.WithdrawalPercentageFee)
+                    .HasColumnName("withdrawal_percentage_fee");
+                
+                entity.Property(a => a.WithdrawalFlatFee)
+                    .HasColumnName("withdrawal_flat_fee");
+                
+                entity.Property(a => a.DepositPercentageFee)
+                    .HasColumnName("deposit_percentage_fee");
+                
+                entity.Property(a => a.DepositFlatFee)
+                    .HasColumnName("deposit_flat_fee");
+                
+                entity.Property(a => a.Enabled)
+                    .HasColumnName("enabled")
+                    .IsRequired();
+                
+                entity.Property(a => a.LastUpdatedAt)
+                    .HasColumnName("last_updated_at")
+                    .HasDefaultValueSql("NOW()");
+                
+                entity.Property(a => a.LastUpdatedBy)
+                    .HasColumnName("last_updated_by")
+                    .HasMaxLength(100)
+                    .IsRequired();
+                
+                entity.Property(a => a.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasDefaultValueSql("NOW()");
+                
+                entity.Property(a => a.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(100)
+                    .IsRequired();
 
                 entity.HasOne(a => a.Currency)
                     .WithMany()
@@ -104,11 +164,11 @@ namespace GlobalStable.Infrastructure.Persistence
 
                 entity.Property(d => d.AccountId).HasColumnName("account_id").IsRequired();
                 entity.Property(d => d.CustomerId).HasColumnName("customer_id").IsRequired();
-                entity.Property(d => d.RequestedAmount).HasColumnName("requested_amount").HasColumnType("numeric(18,2)")
+                entity.Property(d => d.RequestedAmount).HasColumnName("requested_amount").HasColumnType("numeric(38, 18)")
                     .IsRequired();
-                entity.Property(d => d.FeeAmount).HasColumnName("fee_amount").HasColumnType("numeric(18,2)")
+                entity.Property(d => d.FeeAmount).HasColumnName("fee_amount").HasColumnType("numeric(38, 18)")
                     .IsRequired();
-                entity.Property(d => d.TotalAmount).HasColumnName("total_amount").HasColumnType("numeric(18,2)")
+                entity.Property(d => d.TotalAmount).HasColumnName("total_amount").HasColumnType("numeric(38, 18)")
                     .IsRequired();
                 entity.Property(w => w.CurrencyId).HasColumnName("currency_id").IsRequired();
                 entity.Property(d => d.StatusId).HasColumnName("status_id").IsRequired();
@@ -148,15 +208,29 @@ namespace GlobalStable.Infrastructure.Persistence
                     .HasColumnName("id")
                     .HasDefaultValueSql("nextval('global_order_id_seq')");
 
-                entity.Property(w => w.AccountId).HasColumnName("account_id").IsRequired();
-                entity.Property(w => w.CustomerId).HasColumnName("customer_id").IsRequired();
-                entity.Property(w => w.StatusId).HasColumnName("status_id").IsRequired();
-                entity.Property(w => w.StatusDescription).HasColumnName("status_description").HasMaxLength(200);
-                entity.Property(w => w.RequestedAmount).HasColumnName("requested_amount").HasColumnType("numeric(18,2)")
+                entity.Property(w => w.AccountId)
+                    .HasColumnName("account_id")
                     .IsRequired();
-                entity.Property(w => w.FeeAmount).HasColumnName("fee_amount").HasColumnType("numeric(18,2)")
+                
+                entity.Property(w => w.CustomerId)
+                    .HasColumnName("customer_id")
                     .IsRequired();
-                entity.Property(w => w.TotalAmount).HasColumnName("total_amount").HasColumnType("numeric(18,2)")
+                
+                entity.Property(w => w.StatusId)
+                    .HasColumnName("status_id")
+                    .IsRequired();
+                
+                entity.Property(w => w.StatusDescription)
+                    .HasColumnName("status_description")
+                    .HasMaxLength(200);
+                
+                entity.Property(w => w.RequestedAmount)
+                    .HasColumnName("requested_amount")
+                    .HasColumnType("numeric(38, 18)")
+                    .IsRequired();
+                entity.Property(w => w.FeeAmount).HasColumnName("fee_amount").HasColumnType("numeric(38, 18)")
+                    .IsRequired();
+                entity.Property(w => w.TotalAmount).HasColumnName("total_amount").HasColumnType("numeric(38, 18)")
                     .IsRequired();
                 entity.Property(w => w.CurrencyId).HasColumnName("currency_id").IsRequired();
                 entity.Property(w => w.E2EId).HasColumnName("e2e_id").HasMaxLength(50);
@@ -297,7 +371,7 @@ namespace GlobalStable.Infrastructure.Persistence
                 entity.Property(t => t.Id).HasColumnName("id").UseIdentityColumn();
                 entity.Property(t => t.CustomerId).HasColumnName("customer_id").IsRequired();
                 entity.Property(t => t.AccountId).HasColumnName("account_id").IsRequired();
-                entity.Property(t => t.IntervalBalance).HasColumnName("interval_balance").HasColumnType("numeric(18,2)")
+                entity.Property(t => t.IntervalBalance).HasColumnName("interval_balance").HasColumnType("numeric(38, 18)")
                     .IsRequired();
                 entity.Property(t => t.TotalBalance).HasColumnName("total_balance").IsRequired();
                 entity.Property(t => t.LastTransactionId).HasColumnName("last_transaction_id");
@@ -325,7 +399,7 @@ namespace GlobalStable.Infrastructure.Persistence
                 entity.Property(t => t.CustomerId).HasColumnName("customer_id").IsRequired();
                 entity.Property(t => t.Type).HasColumnName("type")
                     .HasConversion(new EnumToStringConverter<TransactionType>()).IsRequired();
-                entity.Property(t => t.Amount).HasColumnName("amount").HasColumnType("numeric(18,2)").IsRequired();
+                entity.Property(t => t.Amount).HasColumnName("amount").HasColumnType("numeric(38, 18)").IsRequired();
                 entity.Property(t => t.CurrencyId).HasColumnName("currency_id").IsRequired();
                 entity.Property(t => t.OrderId).HasColumnName("order_id").IsRequired();
                 entity.Property(t => t.OrderType).HasColumnName("order_type")
@@ -353,7 +427,7 @@ namespace GlobalStable.Infrastructure.Persistence
                 entity.Property(t => t.CustomerId).HasColumnName("customer_id").IsRequired();
                 entity.Property(t => t.Type).HasColumnName("type")
                     .HasConversion(new EnumToStringConverter<TransactionType>()).IsRequired();
-                entity.Property(t => t.Amount).HasColumnName("amount").HasColumnType("numeric(18,8)").IsRequired();
+                entity.Property(t => t.Amount).HasColumnName("amount").HasColumnType("numeric(38, 18)").IsRequired();
                 entity.Property(t => t.CurrencyId).HasColumnName("currency_id").IsRequired();
                 entity.Property(t => t.OrderId).HasColumnName("order_id").IsRequired();
                 entity.Property(t => t.OrderType).HasColumnName("order_type")
@@ -389,16 +463,16 @@ namespace GlobalStable.Infrastructure.Persistence
                 entity.Property(cb => cb.Id).HasColumnName("id").UseIdentityColumn();
                 entity.Property(cb => cb.CurrencyId).HasColumnName("currency_id").IsRequired();
                 entity.Property(cb => cb.BlockchainNetworkId).HasColumnName("blockchain_network_id").IsRequired();
-
-                entity.HasOne<Currency>()
-                    .WithMany()
-                    .HasForeignKey(cb => cb.CurrencyId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne<BlockchainNetwork>()
-                    .WithMany()
-                    .HasForeignKey(cb => cb.BlockchainNetworkId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                
+                entity.HasIndex(cb => new { cb.CurrencyId, cb.BlockchainNetworkId }).IsUnique();
+                
+                entity.HasOne(cb => cb.Currency)
+                    .WithMany(c => c.BlockchainNetworks)
+                    .HasForeignKey(cb => cb.CurrencyId);
+                
+                entity.HasOne(cb => cb.BlockchainNetwork)
+                    .WithMany(bn => bn.SupportedCurrencies)
+                    .HasForeignKey(cb => cb.BlockchainNetworkId);
             });
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ServiceDbContext).Assembly);

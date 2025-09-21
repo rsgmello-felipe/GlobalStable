@@ -11,6 +11,9 @@ public class Currency : EntityBase
     public int Precision { get; private set; }
 
     public CurrencyType Type { get; private set; }
+    
+    public ICollection<CurrencyBlockchain> BlockchainNetworks { get; private set; }
+        = new List<CurrencyBlockchain>();
 
     public Currency(){}
     

@@ -29,8 +29,8 @@ public class HandleCompletedWithdrawalStatusUseCaseTests
         var now = DateTimeOffset.UtcNow;
         return new List<OrderHistory>
         {
-            new OrderHistory(orderId, null, TransactionOrderType.Withdrawal, currentStatusId, "test") { CreatedAt = now },
-            new OrderHistory(orderId, null, TransactionOrderType.Withdrawal, previousStatusId, "test") { CreatedAt = now.AddMilliseconds(-1) },
+            new OrderHistory(orderId, null, OrderType.Withdrawal, currentStatusId, "test") { CreatedAt = now },
+            new OrderHistory(orderId, null, OrderType.Withdrawal, previousStatusId, "test") { CreatedAt = now.AddMilliseconds(-1) },
         };
     }
 

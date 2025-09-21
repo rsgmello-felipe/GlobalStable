@@ -1,29 +1,20 @@
-﻿using GlobalStable.Domain.Interfaces.Repositories;
-using GlobalStable.Infrastructure.HttpClients.ApiResponses;
+﻿using GlobalStable.Domain.Entities;
+using GlobalStable.Domain.Interfaces.Repositories;
 using GlobalStable.Infrastructure.Persistence;
+using GlobalStable.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-public class CurrencyBlockchainRepository : ICurrencyBlockchainRepository
+public class CurrencyBlockchainRepository(ServiceDbContext context)
+    : Repository<CurrencyBlockchain>(context), ICurrencyBlockchainRepository
 {
-    private readonly ServiceDbContext _context;
-
-    public CurrencyBlockchainRepository(ServiceDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<CurrencyBlockchain> AddAsync(CurrencyBlockchain entity)
-    {
-        await _context.CurrencyBlockchains.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return entity;
-    }
-
     public async Task<IEnumerable<CurrencyBlockchain>> GetByBlockchainNetworkIdAsync(long blockchainNetworkId)
     {
-        return await _context.CurrencyBlockchains
+        return await context.CurrencyBlockchains
+            .AsNoTracking()
             .Include(x => x.Currency)
+            .Include(x => x.BlockchainNetwork)
             .Where(x => x.BlockchainNetworkId == blockchainNetworkId)
+            .OrderBy(x => x.Currency.Code)
             .ToListAsync();
     }
 }

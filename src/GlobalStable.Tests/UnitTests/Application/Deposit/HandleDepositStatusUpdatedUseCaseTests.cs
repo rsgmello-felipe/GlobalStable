@@ -4,7 +4,7 @@ using AutoFixture.AutoFakeItEasy;
 using AutoFixture.Xunit2;
 using FakeItEasy;
 using FluentAssertions;
-using GlobalStable.Application.UseCases.Deposit;
+using GlobalStable.Application.UseCases.DepositUseCases;
 using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Enums;
@@ -50,11 +50,11 @@ public class HandleDepositStatusUpdatedUseCaseTests
         A.CallTo(() => depositOrderRepository.GetByIdAsync(depositOrder.Id)).Returns(depositOrder);
         A.CallTo(() => orderHistoryRepository.GetDepositOrderHistory(depositOrder.Id)).Returns(new List<OrderHistory>
         {
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 7, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 7, "test")
             {
                 CreatedAt = DateTimeOffset.UtcNow,
             },
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 10, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 10, "test")
             {
                 CreatedAt = DateTimeOffset.UtcNow.AddMinutes(-1),
             },

@@ -15,6 +15,7 @@ using GlobalStable.Infrastructure.HttpClients.ApiResponses.BgpConnector;
 using GlobalStable.Infrastructure.Settings;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Refit;
@@ -36,7 +37,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOrderEventPublisher orderEventPublisher,
         [Frozen] IAccountRepository accountRepository,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
@@ -47,21 +48,17 @@ public class HandleCreatedWithdrawalUseCaseTests
         withdrawalOrder = new WithdrawalOrder(
             customerId: 1,
             accountId: 123,
-            isAutomated: false,
             requestedAmount: 100,
             feeAmount: 5,
             totalAmount: 105,
             currencyId: 1,
             statusId: 99,
             name: "Test",
-            origin: "",
             e2eId: "123456789",
-            bankId: "BR001",
             receiverAccountKey: "18997933728",
             receiverTaxId: "18997933728",
             receiverWalletAddress: null,
             blockchainNetworkId: null,
-            webhookUrl: null,
             createdBy: "tester");
 
         withdrawalOrder = SetCurrency(withdrawalOrder, currency);
@@ -106,20 +103,20 @@ public class HandleCreatedWithdrawalUseCaseTests
         A.CallTo(() => transactionServiceClient.CreatePendingTransactionAsync(A<CreatePendingTransactionRequest>._, A<long>._, A<long>._))
             .Returns(Task.FromResult(successApiResponse));
 
-        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BgpCreateWithdrawalResponse>>(
+        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BrlProviderCreateWithdrawalResponse>>(
             new HttpResponseMessage(HttpStatusCode.OK),
-            new BaseApiResponse<BgpCreateWithdrawalResponse>(),
+            new BaseApiResponse<BrlProviderCreateWithdrawalResponse>(),
             new RefitSettings(),
             null);
 
-        A.CallTo(() => bgpConnectorClient.CreateWithdrawalAsync(A<BgpCreateWithdrawalRequest>._))
+        A.CallTo(() => brlProviderClient.CreateWithdrawalAsync(A<BrlProviderCreateWithdrawalRequest>._))
             .Returns(Task.FromResult(successWithdrawalBgp));
 
         var sut = new HandleCreatedWithdrawalUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             logger,
@@ -140,7 +137,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOrderEventPublisher orderEventPublisher,
         [Frozen] IAccountRepository accountRepository,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
@@ -159,7 +156,7 @@ public class HandleCreatedWithdrawalUseCaseTests
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             logger,
@@ -180,7 +177,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOrderEventPublisher orderEventPublisher,
         [Frozen] IAccountRepository accountRepository,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
@@ -215,7 +212,7 @@ public class HandleCreatedWithdrawalUseCaseTests
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             logger,
@@ -234,7 +231,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOrderEventPublisher orderEventPublisher,
         [Frozen] IAccountRepository accountRepository,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
@@ -253,7 +250,7 @@ public class HandleCreatedWithdrawalUseCaseTests
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             logger,

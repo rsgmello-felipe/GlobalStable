@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Customer\" />
-    <Folder Include="UseCases\Quote\" />
+    <Folder Include="UseCases\QuoteOrderUseCases\" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,7 @@ using AutoFixture.Xunit2;
 using FakeItEasy;
 using FluentAssertions;
 using GlobalStable.Application.UseCases.Withdrawal;
+using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Events;
@@ -41,7 +42,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] IOrderHistoryRepository orderHistoryRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
         [Frozen] ITransactionEventPublisher transactionEventPublisher,
         [Frozen] IOrderEventPublisher orderEventPublisher,
@@ -49,27 +50,23 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] ILogger<HandleFailedWithdrawalUseCase> failedHandlerLogger,
         [Frozen] ILogger<HandleCompletedWithdrawalStatusUseCase> completedHandlerLogger,
         [Frozen] INotificationPublisher notificationPublisher,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         // Arrange
         var status = new OrderStatus(1, "CREATED");
         withdrawalOrder = new WithdrawalOrder(
-            customerId: 1,
             withdrawalOrder.AccountId,
-            false,
+            customerId: 1,
             100,
             5,
             105,
             1,
             status.Id,
-            "Test Test",
-            origin: "",
+            "",
             "E2E",
             "18997933728",
             "18997933728",
             null,
-            null,
-            "BR123",
             null,
             "tester");
         withdrawalOrder = SetCurrency(withdrawalOrder, currency);
@@ -78,7 +75,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             createdHandlerLogger,
@@ -98,7 +95,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             transactionServiceClient,
             failedHandlerLogger);
 
-        var sut = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var sut = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,
@@ -143,12 +140,12 @@ public class HandleWithdrawalStatusUpdatedUseCase
                 A<long>._))
             .Returns(Task.FromResult(successApiResponse));
 
-        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BgpCreateWithdrawalResponse>>(
+        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BrlProviderCreateWithdrawalResponse>>(
             fakeResponse,
-            new BaseApiResponse<BgpCreateWithdrawalResponse>(),
+            new BaseApiResponse<BrlProviderCreateWithdrawalResponse>(),
             new RefitSettings());
 
-        A.CallTo(() => bgpConnectorClient.CreateWithdrawalAsync(A<BgpCreateWithdrawalRequest>._))
+        A.CallTo(() => brlProviderClient.CreateWithdrawalAsync(A<BrlProviderCreateWithdrawalRequest>._))
             .Returns(Task.FromResult(successWithdrawalBgp));
 
         A.CallTo(() => withdrawalOrderRepository.GetByIdAsync(withdrawalOrder.Id))
@@ -180,7 +177,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IOrderHistoryRepository orderHistoryRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
         [Frozen] IAccountRepository accountRepository,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
         [Frozen] ITransactionEventPublisher transactionEventPublisher,
         [Frozen] IOrderEventPublisher orderEventPublisher,
@@ -188,29 +185,25 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] ILogger<HandleFailedWithdrawalUseCase> failedHandlerLogger,
         [Frozen] ILogger<HandleCompletedWithdrawalStatusUseCase> completedHandlerLogger,
         [Frozen] INotificationPublisher notificationPublisher,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         // Arrange
         var status = new OrderStatus(8, OrderStatuses.Failed);
 
         withdrawalOrder = new WithdrawalOrder(
-            customerId: 1,
             withdrawalOrder.AccountId,
-            false,
+            customerId: 1,
             100,
             5,
             105,
             1,
             status.Id,
             "Test Test",
-            origin: "",
             "E2E",
-            "BANK",
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
             blockchainNetworkId: null,
-            null,
             "tester");
         withdrawalOrder = SetCurrency(withdrawalOrder, currency);
 
@@ -218,7 +211,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             createdHandlerLogger,
@@ -238,7 +231,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             transactionServiceClient,
             failedHandlerLogger);
 
-        var sut = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var sut = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,
@@ -284,11 +277,11 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] INotificationPublisher notificationPublisher,
         [Frozen] IOrderStatusRepository orderStatusRepository,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         A.CallTo(() => withdrawalOrderRepository.GetByIdAsync(withdrawalOrderId)).Returns((WithdrawalOrder)null);
 
-        var useCase = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var useCase = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,
@@ -315,13 +308,13 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IWithdrawalOrderRepository withdrawalOrderRepository,
         [Frozen] INotificationPublisher notificationPublisher,
         [Frozen] IOrderStatusRepository orderStatusRepository,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         var exception = new InvalidOperationException("Unexpected failure");
         A.CallTo(() => withdrawalOrderRepository.GetByIdAsync(eventMessage.OrderId))
             .Throws(exception);
 
-        var sut = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var sut = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,
@@ -351,7 +344,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] IOrderHistoryRepository orderHistoryRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
         [Frozen] ITransactionEventPublisher transactionEventPublisher,
         [Frozen] ILogger<HandleCreatedWithdrawalUseCase> createdHandlerLogger,
@@ -359,28 +352,24 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] ILogger<HandleCompletedWithdrawalStatusUseCase> completedHandlerLogger,
         [Frozen] INotificationPublisher notificationPublisher,
         [Frozen] IOrderEventPublisher orderEventPublisher,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         var status = new OrderStatus(1, OrderStatuses.Created);
 
         var withdrawalOrder = new WithdrawalOrder(
             customerId: 1,
             accountId: 123,
-            isAutomated: false,
             requestedAmount: 100,
             feeAmount: 5,
             totalAmount: 105,
             currencyId: 1,
             statusId: status.Id,
             name: "Test",
-            origin: "",
             e2eId: "E2E",
-            bankId: "BANK",
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
             blockchainNetworkId: null,
-            webhookUrl: null,
             createdBy: "tester");
 
         SetCurrency(withdrawalOrder, currency);
@@ -389,7 +378,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             createdHandlerLogger,
@@ -427,15 +416,15 @@ public class HandleWithdrawalStatusUpdatedUseCase
             RequestMessage = new HttpRequestMessage(HttpMethod.Get, "https://fake-url.com"),
         };
 
-        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BgpCreateWithdrawalResponse>>(
+        var successWithdrawalBgp = new ApiResponse<BaseApiResponse<BrlProviderCreateWithdrawalResponse>>(
             fakeResponse,
-            new BaseApiResponse<BgpCreateWithdrawalResponse>(),
+            new BaseApiResponse<BrlProviderCreateWithdrawalResponse>(),
             new RefitSettings());
 
-        A.CallTo(() => bgpConnectorClient.CreateWithdrawalAsync(A<BgpCreateWithdrawalRequest>._))
+        A.CallTo(() => brlProviderClient.CreateWithdrawalAsync(A<BrlProviderCreateWithdrawalRequest>._))
             .Returns(Task.FromResult(successWithdrawalBgp));
 
-        var sut = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var sut = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,
@@ -463,7 +452,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] IOrderStatusRepository orderStatusRepository,
         [Frozen] IOrderHistoryRepository orderHistoryRepository,
         [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IBgpConnectorClient bgpConnectorClient,
+        [Frozen] IBrlProviderClient brlProviderClient,
         [Frozen] IOptions<CallbackSettings> callbackSettings,
         [Frozen] ITransactionEventPublisher transactionEventPublisher,
         [Frozen] IOrderEventPublisher orderEventPublisher,
@@ -471,35 +460,31 @@ public class HandleWithdrawalStatusUpdatedUseCase
         [Frozen] ILogger<HandleFailedWithdrawalUseCase> failedHandlerLogger,
         [Frozen] ILogger<HandleCompletedWithdrawalStatusUseCase> completedHandlerLogger,
         [Frozen] INotificationPublisher notificationPublisher,
-        [Frozen] ILogger<GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase> logger)
+        [Frozen] ILogger<GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase> logger)
     {
         var status = new OrderStatus(8, OrderStatuses.Failed);
 
         var withdrawalOrder = new WithdrawalOrder(
             customerId: 1,
             accountId: 123,
-            isAutomated: false,
             requestedAmount: 100,
             feeAmount: 5,
             totalAmount: 105,
             currencyId: 1,
             statusId: status.Id,
             name: "Test",
-            origin: "",
             e2eId: "E2E",
-            bankId: "BANK",
             receiverTaxId: "18997933728",
             receiverAccountKey: "18997933728",
             receiverWalletAddress: null,
             blockchainNetworkId: null,
-            webhookUrl: null,
             createdBy: "tester");
 
         var createdHandler = new HandleCreatedWithdrawalUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             transactionServiceClient,
-            bgpConnectorClient,
+            brlProviderClient,
             orderEventPublisher,
             accountRepository,
             createdHandlerLogger,
@@ -536,7 +521,7 @@ public class HandleWithdrawalStatusUpdatedUseCase
                 withdrawalOrder.Id))
             .Returns(failedResponse);
 
-        var sut = new GlobalStable.Application.UseCases.Withdrawal.HandleWithdrawalStatusUpdatedUseCase(
+        var sut = new GlobalStable.Application.UseCases.WithdrawalOrderUseCases.HandleWithdrawalStatusUpdatedUseCase(
             withdrawalOrderRepository,
             orderStatusRepository,
             notificationPublisher,

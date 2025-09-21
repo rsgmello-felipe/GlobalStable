@@ -10,12 +10,16 @@ namespace GlobalStable.Domain.Interfaces.Repositories;
 public interface IRepository<T>
     where T : class
 {
+    Task<T?> GetByIdAsync(long id);
+    
     Task<PagedResult<T>> GetByAccountIdAsync(
         long accountId,
         int page,
         int pageSize);
 
     Task AddAsync(T entity);
+
+    Task RemoveByIdAsync(long id);
 
     Task UpdateAsync(T entity);
 

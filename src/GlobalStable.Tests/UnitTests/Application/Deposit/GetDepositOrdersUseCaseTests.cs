@@ -1,12 +1,12 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoFakeItEasy;
 using AutoFixture.Xunit2;
-using GlobalStable.Application.UseCases.Deposit;
 using GlobalStable.Domain.Common;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Interfaces.Repositories;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.DepositUseCases;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalStable.Tests.UnitTests.Application.Deposit;
@@ -45,24 +45,16 @@ public class GetDepositOrdersUseCaseTests
         var depositOrder = new DepositOrder(
             customerId: 100,
             accountId: 200,
-            isAutomated: false,
             requestedAmount: 1000,
             feeAmount: 10,
             totalAmount: 990,
             currencyId: currency.Id,
             statusId: statusId,
             bankReference: "REF123",
-            webhookUrl: "https://example.com/webhook",
             expireAt: DateTimeOffset.UtcNow.AddHours(1),
             createdBy: "unit_test",
-            origin: "",
-            bankId: "BANK1",
-            payerTaxId: "12345678900",
-            pixCopyPaste: "pixcode",
-            cvu: "CVU123",
             e2eId: "E2E123",
-            statusDescription: "Completed",
-            name: "Test Name");
+            statusDescription: "Completed");
 
         typeof(DepositOrder).GetProperty(nameof(DepositOrder.Currency))!
             .SetValue(depositOrder, currency);
@@ -108,7 +100,6 @@ public class GetDepositOrdersUseCaseTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Orders.Should().HaveCount(1);
         result.Value.Orders.First().Currency.Should().Be(currency.Code);
-        result.Value.Orders.First().Name.Should().Be("Test Name");
     }
 
     [Fact]

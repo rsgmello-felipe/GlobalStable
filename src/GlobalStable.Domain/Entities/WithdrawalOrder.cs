@@ -47,23 +47,22 @@ public class WithdrawalOrder : EntityBase
 
     public WithdrawalOrder(
         long accountId,
+        long customerId,
         decimal requestedAmount,
         decimal feeAmount,
         decimal totalAmount,
         long currencyId,
         long statusId,
         string name,
-        string origin,
         string? e2eId,
-        string? bankId,
         string? receiverTaxId,
         string? receiverAccountKey,
         string? receiverWalletAddress,
         string? blockchainNetworkId,
-        string? webhookUrl,
         string createdBy)
     {
         AccountId = accountId;
+        CustomerId = customerId;
         RequestedAmount = requestedAmount;
         FeeAmount = feeAmount;
         TotalAmount = totalAmount;

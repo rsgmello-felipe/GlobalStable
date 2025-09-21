@@ -13,12 +13,7 @@ public static class MessagingKeys
     public const string ConnectorDepositUpdate = "connector.deposit.update";
     public const string ConnectorWithdrawalUpdate = "connector.withdrawal.update";
 
-    public const string GlobalStableNewAccount = "order_service.new_account";
-    public const string NewAccount = "entity.account";
-    public const string GlobalStableNewCurrency = "order_service.entity_currency";
-    public const string NewCurrency = "entity.currency";
-
     public const string Audit = "audit";
 
-    public const string BgxTopicExchange = "bgx_topic_exchange";
+    public const string GlobalStableTopicExchange = "global_stable_topic_exchange";
 }

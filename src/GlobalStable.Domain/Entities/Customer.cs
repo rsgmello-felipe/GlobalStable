@@ -28,8 +28,12 @@ public class Customer : EntityBase
     }
 
     public void Update(
+        string? name = null,
+        decimal? quoteSpread = null,
         bool? enabled = null)
     {
+        Name = name ?? Name;
+        QuoteSpread = quoteSpread ?? QuoteSpread;
         Enabled = enabled ?? Enabled;
     }
 }

@@ -5,38 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalStable.Infrastructure.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+public class TransactionRepository(ServiceDbContext context) 
+    : Repository<Transaction>(context), ITransactionRepository
 {
-    private readonly ServiceDbContext _context;
-
-    public TransactionRepository(ServiceDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<Transaction> AddAsync(Transaction entity)
-    {
-        await _context.Transactions.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return entity;
-    }
-
-    public async Task<IEnumerable<Transaction>> GetByAccountIdAsync(
+    public async Task<IEnumerable<Transaction>> GetByOrderIdAsync(
         long accountId, 
-        DateTime? startDate = null, 
-        DateTime? endDate = null)
+        long orderId)
     {
-        var query = _context.Transactions
-            .Where(x => x.AccountId == accountId);
-
-        if (startDate.HasValue)
-            query = query.Where(x => x.CreatedAt >= startDate.Value);
-
-        if (endDate.HasValue)
-            query = query.Where(x => x.CreatedAt <= endDate.Value);
-
-        return await query
-            .OrderByDescending(x => x.CreatedAt)
+        return await context.Transactions
+            .Where(t => 
+                t.AccountId == accountId &&
+                t.OrderId == orderId)
             .ToListAsync();
+
     }
 }

@@ -27,7 +27,6 @@ public class WithdrawalOrderNotificationEvent
         string orderType,
         long accountId,
         long customerId,
-        string? webhookUrl,
         decimal amount,
         string currency,
         string status,
@@ -38,7 +37,6 @@ public class WithdrawalOrderNotificationEvent
         OrderType = orderType;
         AccountId = accountId;
         CustomerId = customerId;
-        WebhookUrl = webhookUrl;
         Amount = amount;
         Currency = currency;
         Status = status;

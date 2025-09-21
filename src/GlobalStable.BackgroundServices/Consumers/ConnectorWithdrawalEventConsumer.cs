@@ -3,6 +3,7 @@ using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Events;
 using GlobalStable.Infrastructure.Messaging;
 using FluentResults;
+using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 
 namespace GlobalStable.BackgroundServices.Consumers;
 
@@ -14,7 +15,7 @@ public class ConnectorWithdrawalEventConsumer(
         logger,
         rabbitMqConnection,
         queueName: MessagingKeys.ConnectorWithdrawalUpdate,
-        exchangeName: MessagingKeys.BgxTopicExchange,
+        exchangeName: MessagingKeys.GlobalStableTopicExchange,
         routingKey: MessagingKeys.ConnectorWithdrawalUpdate)
 {
     protected override async Task<Result> HandleEventAsync(ConnectorWithdrawalEvent eventMessage)

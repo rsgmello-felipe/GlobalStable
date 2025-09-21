@@ -5,33 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalStable.Infrastructure.Repositories;
 
-public class PendingTransactionRepository : IPendingTransactionRepository
+public class PendingTransactionRepository(ServiceDbContext context)
+    : Repository<PendingTransaction>(context), IPendingTransactionRepository
 {
-    private readonly ServiceDbContext _context;
-
-    public PendingTransactionRepository(ServiceDbContext context)
+    public async Task<IEnumerable<PendingTransaction>> GetByOrderIdAsync(long accountId, long orderId)
     {
-        _context = context;
-    }
-
-    public async Task<PendingTransaction> AddAsync(PendingTransaction entity)
-    {
-        await _context.PendingTransactions.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return entity;
-    }
-
-    public async Task<IEnumerable<PendingTransaction>> GetByAccountIdAsync(long accountId)
-    {
-        return await _context.PendingTransactions
-            .Where(x => x.AccountId == accountId)
-            .OrderByDescending(x => x.CreatedAt)
+        return await context.PendingTransactions
+            .Where(pt => 
+                pt.AccountId == accountId &&
+                pt.OrderId == orderId)
             .ToListAsync();
-    }
-
-    public async Task RemoveAsync(PendingTransaction entity)
-    {
-        _context.PendingTransactions.Remove(entity);
-        await _context.SaveChangesAsync();
     }
 }

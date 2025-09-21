@@ -31,7 +31,7 @@ public class RabbitMqPublisher : IEventPublisher, IDisposable
 
         // Declare exchange only once
         _channel.ExchangeDeclare(
-            exchange: MessagingKeys.BgxTopicExchange,
+            exchange: MessagingKeys.GlobalStableTopicExchange,
             type: ExchangeType.Topic,
             durable: true,
             autoDelete: false);
@@ -70,7 +70,7 @@ public class RabbitMqPublisher : IEventPublisher, IDisposable
         await _retryPolicy.ExecuteAsync(async () =>
         {
             _channel.BasicPublish(
-                exchange: MessagingKeys.BgxTopicExchange,
+                exchange: MessagingKeys.GlobalStableTopicExchange,
                 routingKey: routingKey,
                 basicProperties: properties,
                 body: body);

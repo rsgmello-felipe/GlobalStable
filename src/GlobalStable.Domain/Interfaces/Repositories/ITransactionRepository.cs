@@ -2,13 +2,9 @@
 
 namespace GlobalStable.Domain.Interfaces.Repositories;
 
-public interface ITransactionRepository
+public interface ITransactionRepository : IRepository<Transaction>
 {
-    Task<Transaction> AddAsync(Transaction entity);
-    Task<Transaction> GetByIdAsync(long id);
-    Task<IEnumerable<Transaction>> GetByAccountIdAsync(
-        long accountId, 
-        DateTime? startDate = null, 
-        DateTime? endDate = null);
-    Task<IEnumerable<Transaction>> GetByOrderIdAsync(long orderId, string orderType);
+    Task<IEnumerable<Transaction>> GetByOrderIdAsync(
+        long accountId,
+        long orderId);
 }

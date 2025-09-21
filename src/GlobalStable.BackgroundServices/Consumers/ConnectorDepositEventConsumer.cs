@@ -1,8 +1,8 @@
-﻿using GlobalStable.Application.UseCases.Deposit;
-using GlobalStable.Domain.Constants;
+﻿using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Events;
 using GlobalStable.Infrastructure.Messaging;
 using FluentResults;
+using GlobalStable.Application.UseCases.DepositUseCases;
 
 namespace GlobalStable.BackgroundServices.Consumers;
 
@@ -14,7 +14,7 @@ public class ConnectorDepositEventConsumer(
         logger,
         rabbitMqConnection,
         queueName: MessagingKeys.ConnectorDepositUpdate,
-        exchangeName: MessagingKeys.BgxTopicExchange,
+        exchangeName: MessagingKeys.GlobalStableTopicExchange,
         routingKey: MessagingKeys.ConnectorDepositUpdate)
 {
     protected override async Task<Result> HandleEventAsync(ConnectorDepositEvent eventMessage)

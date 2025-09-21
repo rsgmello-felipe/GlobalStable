@@ -2,12 +2,8 @@
 
 namespace GlobalStable.Domain.Interfaces.Repositories
 {
-    public interface IPendingTransactionRepository
+    public interface IPendingTransactionRepository : IRepository<PendingTransaction>
     {
-        Task<PendingTransaction> AddAsync(PendingTransaction entity);
-        Task<PendingTransaction> GetByIdAsync(long id);
-        Task<IEnumerable<PendingTransaction>> GetByAccountIdAsync(long accountId);
-        Task<IEnumerable<PendingTransaction>> GetByOrderIdAsync(long orderId, string orderType);
-        Task RemoveAsync(PendingTransaction entity);
+        Task<IEnumerable<PendingTransaction>> GetByOrderIdAsync(long accountId, long orderId);
     }
 }

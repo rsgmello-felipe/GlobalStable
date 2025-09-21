@@ -2,11 +2,7 @@
 
 namespace GlobalStable.Domain.Interfaces.Repositories;
 
-public interface IBlockchainNetworkRepository
+public interface IBlockchainNetworkRepository : IRepository<BlockchainNetwork>
 {
-    Task<BlockchainNetwork> AddAsync(BlockchainNetwork entity);
-    Task<BlockchainNetwork> GetByIdAsync(long id);
-    Task<IEnumerable<BlockchainNetwork>> GetAllAsync();
-    Task<BlockchainNetwork> UpdateAsync(BlockchainNetwork entity);
-    Task RemoveAsync(BlockchainNetwork entity);
+    Task<BlockchainNetwork?> GetByNameAsync(string name);
 }

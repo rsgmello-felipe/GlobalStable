@@ -1,8 +1,8 @@
-﻿using GlobalStable.Application.UseCases.Deposit;
-using GlobalStable.Domain.Constants;
+﻿using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Events;
 using GlobalStable.Infrastructure.Messaging;
 using FluentResults;
+using GlobalStable.Application.UseCases.DepositUseCases;
 
 namespace GlobalStable.BackgroundServices.Consumers;
 
@@ -14,7 +14,7 @@ public class DepositStatusUpdateConsumer(
         logger,
         rabbitMqConnection,
         queueName: MessagingKeys.DepositOrderStatusUpdated,
-        exchangeName: MessagingKeys.BgxTopicExchange,
+        exchangeName: MessagingKeys.GlobalStableTopicExchange,
         routingKey: MessagingKeys.DepositOrderStatusUpdated)
 {
     protected override async Task<Result> HandleEventAsync(OrderEvent eventMessage)

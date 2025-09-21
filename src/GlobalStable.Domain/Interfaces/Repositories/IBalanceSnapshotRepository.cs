@@ -2,10 +2,7 @@
 
 namespace GlobalStable.Domain.Interfaces.Repositories;
 
-public interface IBalanceSnapshotRepository
+public interface IBalanceSnapshotRepository : IRepository<BalanceSnapshot>
 {
-    Task<BalanceSnapshot> AddAsync(BalanceSnapshot entity);
-    Task<BalanceSnapshot> GetByIdAsync(long id);
-    Task<BalanceSnapshot> GetLatestByAccountIdAsync(long accountId);
-    Task<IEnumerable<BalanceSnapshot>> GetByAccountIdAsync(long accountId);
+    Task<BalanceSnapshot?> GetLatestByAccountIdAsync(long accountId);
 }

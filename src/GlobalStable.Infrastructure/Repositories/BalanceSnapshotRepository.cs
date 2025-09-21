@@ -5,27 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalStable.Infrastructure.Repositories;
 
-public class BalanceSnapshotRepository : IBalanceSnapshotRepository
+public class BalanceSnapshotRepository(ServiceDbContext context) 
+    : Repository<BalanceSnapshot>(context), IBalanceSnapshotRepository
 {
-    private readonly ServiceDbContext _context;
-
-    public BalanceSnapshotRepository(ServiceDbContext context)
+    public async Task<BalanceSnapshot?> GetLatestByAccountIdAsync(long accountId)
     {
-        _context = context;
-    }
-
-    public async Task<BalanceSnapshot> AddAsync(BalanceSnapshot entity)
-    {
-        await _context.BalanceSnapshots.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return entity;
-    }
-
-    public async Task<BalanceSnapshot> GetLatestByAccountIdAsync(long accountId)
-    {
-        return await _context.BalanceSnapshots
-            .Where(x => x.AccountId == accountId)
-            .OrderByDescending(x => x.CreatedAt)
+        return await context.BalanceSnapshots
+            .Where(bs => bs.AccountId == accountId)
+            .OrderByDescending(bs => bs.CreatedAt)
             .FirstOrDefaultAsync();
     }
 }

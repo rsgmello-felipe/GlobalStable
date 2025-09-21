@@ -14,15 +14,21 @@ public class Repository<T>(ServiceDbContext dbContext)
     : IRepository<T>
     where T : class
 {
+    public async Task<T?> GetByIdAsync(long id)
+    {
+        return await dbContext.Set<T>()
+            .AsNoTracking()
+            .SingleOrDefaultAsync(e => EF.Property<long>(e, "Id") == id);
+    }
+    
     public async Task<PagedResult<T>> GetByAccountIdAsync(
         long accountId,
         int page,
         int pageSize)
     {
-        var query = dbContext.Set<T>();
+        var query = dbContext.Set<T>().Where(e => EF.Property<long>(e, "AccountId") == accountId);
         var totalItems = await query.CountAsync();
         var items = await query
-            .Where(e => EF.Property<long>(e, "AccountId") == accountId)
             .OrderByDescending(e => EF.Property<DateTime>(e, "CreatedAt"))
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -43,6 +49,14 @@ public class Repository<T>(ServiceDbContext dbContext)
         await dbContext.SaveChangesAsync();
     }
 
+    public async Task RemoveByIdAsync(long id)
+    {
+        var entity = await GetByIdAsync(id);
+        if (entity is null) return;
+        dbContext.Set<T>().Remove(entity);
+        await dbContext.SaveChangesAsync();
+    }
+
     public async Task<PagedResult<T>> GetPagedAsync(
         Expression<Func<T, bool>> filter,
         int page,
@@ -52,7 +66,7 @@ public class Repository<T>(ServiceDbContext dbContext)
 
         var totalItems = await query.CountAsync();
         var items = await query
-            .OrderByDescending(e => EF.Property<DateTime>(e, "CreatedAt"))
+            .OrderByDescending(e => EF.Property<DateTimeOffset>(e, "CreatedAt"))
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

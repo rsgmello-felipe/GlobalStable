@@ -2,7 +2,6 @@
 using AutoFixture;
 using AutoFixture.AutoFakeItEasy;
 using AutoFixture.Xunit2;
-using GlobalStable.Application.UseCases.Deposit;
 using GlobalStable.Domain.Constants;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Enums;
@@ -14,6 +13,7 @@ using GlobalStable.Infrastructure.HttpClients.ApiResponses;
 using GlobalStable.Infrastructure.Persistence;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.DepositUseCases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -31,21 +31,15 @@ public class HandleCompletedDepositStatusUseCaseTests
         return new DepositOrder(
             customerId: 1,
             accountId: 123,
-            isAutomated: false,
             requestedAmount: 100,
             feeAmount: 5,
             totalAmount: 105,
             currencyId: 1,
             statusId: statusId,
             bankReference: "BR123",
-            payerTaxId: "18997933728",
-            webhookUrl: "https://webhook.url",
             expireAt: DateTimeOffset.UtcNow.AddSeconds(300),
             createdBy: "test",
-            origin: "",
-            bankId: null,
-            e2eId: "E2E123",
-            name: "Test User");
+            e2eId: "E2E123");
     }
 
     private static ServiceDbContext CreateInMemoryDb()
@@ -78,11 +72,11 @@ public class HandleCompletedDepositStatusUseCaseTests
         A.CallTo(() => orderStatusRepository.GetAllAsync()).Returns(statusList);
         A.CallTo(() => orderHistoryRepository.GetDepositOrderHistory(depositOrder.Id)).Returns(new List<OrderHistory>
         {
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 7, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 7, "test")
             {
                 CreatedAt = DateTimeOffset.UtcNow,
             },
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 10, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 10, "test")
             {
                 CreatedAt = DateTimeOffset.UtcNow.AddMinutes(-1),
             },
@@ -147,11 +141,11 @@ public class HandleCompletedDepositStatusUseCaseTests
 
         A.CallTo(() => orderHistoryRepository.GetDepositOrderHistory(depositOrder.Id)).Returns(new List<OrderHistory>
         {
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 7, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 7, "test")
             {
                 CreatedAt = now,
             },
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 2, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 2, "test")
             {
                 CreatedAt = now.AddMinutes(-1),
             },
@@ -196,14 +190,14 @@ public class HandleCompletedDepositStatusUseCaseTests
         A.CallTo(() => orderStatusRepository.GetAllAsync()).Returns(statusList);
         A.CallTo(() => orderHistoryRepository.GetWithdrawalOrderHistory(depositOrder.Id)).Returns(new List<OrderHistory>
         {
-            new OrderHistory(null, depositOrder.Id, TransactionOrderType.Deposit, 7, "test")
+            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 7, "test")
             {
                 CreatedAt = DateTimeOffset.UtcNow,
             },
             new OrderHistory(
                 null,
                 depositOrder.Id,
-                TransactionOrderType.Deposit,
+                OrderType.Deposit,
                 999,
                 "test")
             {

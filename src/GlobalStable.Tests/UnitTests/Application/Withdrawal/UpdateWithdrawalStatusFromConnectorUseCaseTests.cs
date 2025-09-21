@@ -9,6 +9,7 @@ using GlobalStable.Domain.Interfaces.Messaging;
 using GlobalStable.Domain.Interfaces.Repositories;
 using FakeItEasy;
 using FluentAssertions;
+using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalStable.Tests.UnitTests.Application.Withdrawal;
