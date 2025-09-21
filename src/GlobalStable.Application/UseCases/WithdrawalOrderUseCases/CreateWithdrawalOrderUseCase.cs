@@ -31,8 +31,7 @@ public class CreateWithdrawalOrderUseCase(
     public async Task<Result<WithdrawalOrderResponse>> ExecuteAsync(
         CreateWithdrawalOrderRequest request,
         long accountId,
-        string username,
-        string? originHeader)
+        string username)
     {
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
         try

@@ -1,5 +1,4 @@
 services:
-
   GlobalStable-api:
     build:
       context: ../src
@@ -7,15 +6,17 @@ services:
     container_name: GlobalStable-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Postgres: Host=postgres-order;Port=5432;Database=order_db;Username=order_user;Password=order_password
+      ConnectionStrings__Postgres: Host=postgres-globalstable;Port=5432;Database=global_db;Username=global_user;Password=global_password
       RabbitMQ__Host: rabbitmq
       RabbitMQ__Username: guest
       RabbitMQ__Password: guest
     ports:
       - "7027:8080"
     depends_on:
-      - postgres-order
-      - rabbitmq
+      postgres-globalstable:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - global_network
 
@@ -31,12 +32,14 @@ services:
       RabbitMQ__Username: guest
       RabbitMQ__Password: guest
     depends_on:
-      - postgres-globalstable
-      - rabbitmq
+      postgres-globalstable:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - global_network
 
-  postgres-order:
+  postgres-globalstable:
     image: postgres:15
     container_name: postgres-globalstable
     restart: always
@@ -45,9 +48,14 @@ services:
       POSTGRES_USER: global_user
       POSTGRES_PASSWORD: global_password
     ports:
-      - "5433:5432"
+      - "5500:5432"
     volumes:
       - postgres_globalstable_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U global_user -d global_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - global_network
 
@@ -59,13 +67,18 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     ports:
-      - "5672:5672"  # Porta para comunicação
-      - "15672:15672" # UI do RabbitMQ
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - global_network
 
 volumes:
-  postgres_order_data:
+  postgres_globalstable_data: {}
 
 networks:
   global_network:

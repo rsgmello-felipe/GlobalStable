@@ -261,6 +261,8 @@ namespace GlobalStable.Infrastructure.Persistence
 
             modelBuilder.Entity<QuoteOrder>(builder =>
             {
+                builder.ToTable("quote_order");
+
                 builder.HasKey(q => q.Id);
 
                 builder.Property(q => q.CustomerId)
@@ -368,16 +370,44 @@ namespace GlobalStable.Infrastructure.Persistence
             {
                 entity.ToTable("balance_snapshots");
                 entity.HasKey(t => t.Id);
-                entity.Property(t => t.Id).HasColumnName("id").UseIdentityColumn();
-                entity.Property(t => t.CustomerId).HasColumnName("customer_id").IsRequired();
-                entity.Property(t => t.AccountId).HasColumnName("account_id").IsRequired();
-                entity.Property(t => t.IntervalBalance).HasColumnName("interval_balance").HasColumnType("numeric(38, 18)")
+                entity.Property(t => t.Id)
+                    .HasColumnName("id")
+                    .UseIdentityColumn();
+                
+                entity.Property(t => t.CustomerId)
+                    .HasColumnName("customer_id")
                     .IsRequired();
-                entity.Property(t => t.TotalBalance).HasColumnName("total_balance").IsRequired();
-                entity.Property(t => t.LastTransactionId).HasColumnName("last_transaction_id");
-                entity.Property(t => t.PreviousBalanceSnapshotId).HasColumnName("previous_balance_snapshot_id");
-                entity.Property(t => t.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("NOW()");
-                entity.Property(t => t.CreatedBy).HasColumnName("created_by").HasMaxLength(100).IsRequired();
+                
+                entity.Property(t => t.AccountId)
+                    .HasColumnName("account_id")
+                    .IsRequired();
+                
+                entity.Property(t => t.IntervalBalance)
+                    .HasColumnName("interval_balance")
+                    .HasColumnType("numeric(38, 18)")
+                    .IsRequired();
+                
+                entity.Property(t => t.TotalBalance)
+                    .HasColumnName("total_balance")
+                    .IsRequired();
+                
+                entity.Property(t => t.LastTransactionId)
+                    .HasColumnName("last_transaction_id");
+                
+                entity.Property(t => t.PreviousBalanceSnapshotId)
+                    .HasColumnName("previous_balance_snapshot_id");
+                
+                entity.Property(t => t.CurrencyId)
+                    .HasColumnName("currency_id");
+                
+                entity.Property(t => t.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasDefaultValueSql("NOW()");
+                
+                entity.Property(t => t.CreatedBy)
+                    .HasColumnName("created_by")
+                    .HasMaxLength(100)
+                    .IsRequired();
 
                 entity.HasIndex(t => t.AccountId).HasDatabaseName("idx_balance_snapshot_account_id");
 

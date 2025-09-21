@@ -57,9 +57,16 @@ namespace GlobalStable.Infrastructure.DependencyInjection
             services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
             services.AddScoped<IOrderHistoryRepository, OrderHistoryRepository>();
             services.AddScoped<IWithdrawalOrderRepository, WithdrawalOrderRepository>();
-            services.AddScoped<IDepositOrderRepository, DepositOrderRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IQuoteOrderRepository, QuoteOrderRepository>();
+            services.AddScoped<IDepositOrderRepository, DepositOrderRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IBlockchainNetworkRepository, BlockchainNetworkRepository>();
+            services.AddScoped<ICurrencyBlockchainRepository, CurrencyBlockchainRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IPendingTransactionRepository, PendingTransactionRepository>();
+            services.AddScoped<IBalanceSnapshotRepository, BalanceSnapshotRepository>();
 
             services.AddMemoryCache();
 

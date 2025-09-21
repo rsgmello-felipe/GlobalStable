@@ -19,7 +19,6 @@ public class WithdrawalOrderController() : ControllerBase
     public async Task<IResult> CreateWithdrawalOrder(
         [FromServices] CreateWithdrawalOrderUseCase useCase,
         [FromHeader(Name = "Authorization")] string authorization,
-        [FromHeader(Name = "X-Origin")] string? originHeader,
         [FromBody] CreateWithdrawalOrderRequest request,
         [FromRoute] long accountId)
     {
@@ -33,7 +32,7 @@ public class WithdrawalOrderController() : ControllerBase
 
         var jwtToken = handler.ReadJwtToken(token);
         var username = jwtToken.Claims.FirstOrDefault(c => UserIdentifiers.FullSet.Contains(c.Type))?.Value;
-        var result = await useCase.ExecuteAsync(request, accountId, username!,originHeader);
+        var result = await useCase.ExecuteAsync(request, accountId, username!);
 
         return result.IsFailed
             ? Results.BadRequest(new BaseApiResponse<string>(
