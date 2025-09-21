@@ -11,14 +11,16 @@ namespace GlobalStable.Application.UseCases.CustomerUseCases
         ILogger<UpdateCustomerUseCase> logger
         )
     {
-        public async Task<Result<Customer>> ExecuteAsync(UpdateCustomerRequest request)
+        public async Task<Result<Customer>> ExecuteAsync(
+            long customerId,
+            UpdateCustomerRequest request)
         {
-            var customer = await customerRepository.GetByIdAsync(request.CustomerId);
+            var customer = await customerRepository.GetByIdAsync(customerId);
             if (customer == null)
             {
                 logger.LogInformation(
                     "Customer with id '{customerId}' not found.",
-                    request.CustomerId);
+                    customerId);
                 return Result.Fail("Customer not found.");
             }
 

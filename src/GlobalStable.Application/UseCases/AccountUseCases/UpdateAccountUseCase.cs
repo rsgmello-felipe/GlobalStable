@@ -1,4 +1,5 @@
-﻿using GlobalStable.Application.ApiRequests;
+﻿using FluentResults;
+using GlobalStable.Application.ApiRequests;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Interfaces.Repositories;
 
@@ -6,16 +7,18 @@ namespace GlobalStable.Application.UseCases.AccountUseCases
 {
     public class UpdateAccountUseCase(IAccountRepository accountRepository)
     {
-        public async Task<Account> ExecuteAsync(UpdateAccountRequest request)
+        public async Task<Result<Account>> ExecuteAsync(
+            long customerId,
+            UpdateAccountRequest request)
         {
-            var account = await accountRepository.GetByIdAsync(request.AccountId);
-            if (account == null) throw new Exception("Account not found");
+            var account = await accountRepository.GetByCustomerIdAndIdAsync(customerId, request.AccountId);
+            if (account == null) return Result.Fail<Account>("Account not found.");
 
             account.UpdateAccount("System", request.Name, request.WalletAddress, request.Enabled);
 
             await accountRepository.UpdateAsync(account);
 
-            return account;
+            return Result.Ok(account);
         }
     }
 }

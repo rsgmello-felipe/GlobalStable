@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GlobalStable.BackgroundServices")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+840c9ce02b20bbb95c31da08b74f2ecee6b0a4d9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bffaa144566ae7174e651266ab8b159eba353c9")]
 [assembly: System.Reflection.AssemblyProductAttribute("GlobalStable.BackgroundServices")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GlobalStable.BackgroundServices")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

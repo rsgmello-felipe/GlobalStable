@@ -11,6 +11,8 @@ public interface IRepository<T>
     where T : class
 {
     Task<T?> GetByIdAsync(long id);
+
+    Task<T?> GetByCustomerIdAndIdAsync(long id, long customerId);
     
     Task<PagedResult<T>> GetByAccountIdAsync(
         long accountId,
@@ -18,9 +20,7 @@ public interface IRepository<T>
         int pageSize);
 
     Task AddAsync(T entity);
-
-    Task RemoveByIdAsync(long id);
-
+    
     Task UpdateAsync(T entity);
 
     Task<PagedResult<T>> GetPagedAsync(

@@ -3,9 +3,7 @@
 public class CreateAccountRequest
 {
     public string Name { get;  set; }
-
-    public long CustomerId { get;  set; }
-
+    
     public string Currency { get;  set; }
 
     public string? WalletAddress { get;  set; }

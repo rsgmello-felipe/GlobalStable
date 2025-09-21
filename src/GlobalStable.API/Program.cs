@@ -1,9 +1,11 @@
 using Asp.Versioning;
 using GlobalStable.API.DependencyInjection;
 using GlobalStable.Application.DependencyInjection;
-using GlobalStable.Domain.Constants;
 using GlobalStable.Infrastructure.DependencyInjection;
+using GlobalStable.Infrastructure.HttpHandlers;
 using GlobalStable.Infrastructure.Settings;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +19,19 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.Configure<CallbackSettings>(builder.Configuration.GetSection("CallbackSettings"));
 
-builder.Services.AddCustomAuthentication();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(ApiKeyAuthenticationHandler.Scheme)
+    .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(
+        ApiKeyAuthenticationHandler.Scheme, _ => {});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SameCustomer", policy =>
+        policy.AddRequirements(new SameCustomerRequirement())
+            .AddAuthenticationSchemes(ApiKeyAuthenticationHandler.Scheme)
+            .RequireAuthenticatedUser());
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, SameCustomerHandler>();
 
 builder.Services.AddUseCases();
 

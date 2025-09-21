@@ -5,12 +5,14 @@ using GlobalStable.Application.ApiResponses;
 using GlobalStable.Application.UseCases.Withdrawal;
 using GlobalStable.Application.UseCases.WithdrawalOrderUseCases;
 using GlobalStable.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlobalStable.API.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/customer/{customerId:long}/orders/withdrawal")]
+[Authorize(Policy = "SameCustomer")]
 [ApiVersion("1.0")]
 public class WithdrawalOrderController() : ControllerBase
 {
@@ -18,21 +20,10 @@ public class WithdrawalOrderController() : ControllerBase
     [ActionName(nameof(CreateWithdrawalOrder))]
     public async Task<IResult> CreateWithdrawalOrder(
         [FromServices] CreateWithdrawalOrderUseCase useCase,
-        [FromHeader(Name = "Authorization")] string authorization,
         [FromBody] CreateWithdrawalOrderRequest request,
         [FromRoute] long accountId)
     {
-        var token = authorization.Substring("Bearer ".Length).Trim();
-
-        var handler = new JwtSecurityTokenHandler();
-        if (!handler.CanReadToken(token))
-        {
-            return Results.Unauthorized();
-        }
-
-        var jwtToken = handler.ReadJwtToken(token);
-        var username = jwtToken.Claims.FirstOrDefault(c => UserIdentifiers.FullSet.Contains(c.Type))?.Value;
-        var result = await useCase.ExecuteAsync(request, accountId, username!);
+        var result = await useCase.ExecuteAsync(request, accountId);
 
         return result.IsFailed
             ? Results.BadRequest(new BaseApiResponse<string>(

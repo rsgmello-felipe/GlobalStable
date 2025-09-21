@@ -12,23 +12,25 @@ namespace GlobalStable.Application.UseCases.AccountUseCases
         ILogger<CreateAccountUseCase> logger
         )
     {
-        public async Task<Result<Account>> ExecuteAsync(CreateAccountRequest request)
+        public async Task<Result<Account>> ExecuteAsync(
+            long customerId,
+            CreateAccountRequest request)
         {
             var currency = await currencyRepository.GetByCodeAsync(request.Currency);
             
-            var accountExists = await accountRepository.CheckIfAccountExists(request.CustomerId, currency.Id);
+            var accountExists = await accountRepository.CheckIfAccountExists(customerId, currency.Id);
             if (accountExists)
             {
                 logger.LogInformation(
                     "Account with currency '{currency}' already exists for customerId: '{customerId}'",
                     request.Currency,
-                    request.CustomerId);
-                return Result.Fail($"Account with currency '{request.Currency}' already exists for customerId: '{request.CustomerId}'");
+                    customerId);
+                return Result.Fail($"Account with currency '{request.Currency}' already exists for customerId: '{customerId}'");
             }
             
             var account = new Account(
                 request.Name,
-                request.CustomerId,
+                customerId,
                 currency.Id,
                 request.WithdrawalPercentageFee,
                 request.WithdrawalFlatFee,

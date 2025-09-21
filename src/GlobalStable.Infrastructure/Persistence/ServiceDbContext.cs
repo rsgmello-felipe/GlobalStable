@@ -505,6 +505,20 @@ namespace GlobalStable.Infrastructure.Persistence
                     .HasForeignKey(cb => cb.BlockchainNetworkId);
             });
 
+            modelBuilder.Entity<CustomerApiKey>(entity =>
+            {
+                entity.ToTable("customer_api_key");
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Id).HasColumnName("id").UseIdentityColumn();
+                entity.Property(x => x.CustomerId).HasColumnName("customer_id").IsRequired();
+                entity.Property(x => x.KeyHash).HasColumnName("key_hash").HasMaxLength(128).IsRequired();
+                entity.Property(x => x.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("now()");
+                entity.Property(x => x.Enabled).HasColumnName("enabled").HasDefaultValue(true);
+                
+                entity.HasIndex(x => new { x.CustomerId, x.Enabled });
+                entity.HasIndex(x => x.KeyHash).IsUnique();
+            });
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ServiceDbContext).Assembly);
         }
     }

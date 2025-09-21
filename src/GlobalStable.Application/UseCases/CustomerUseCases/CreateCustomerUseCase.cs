@@ -1,13 +1,18 @@
-﻿using FluentResults;
+﻿using System.Security.Cryptography;
+using System.Text;
+using FluentResults;
 using GlobalStable.Application.ApiRequests;
 using GlobalStable.Domain.Entities;
 using GlobalStable.Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalStable.Application.UseCases.CustomerUseCases
 {
     public class CreateCustomerUseCase(
         ICustomerRepository customerRepository,
+        ICustomerApiKeyRepository apiKeyRepository,
+        IConfiguration configuration,
         ILogger<CreateCustomerUseCase> logger
         )
     {
@@ -26,8 +31,24 @@ namespace GlobalStable.Application.UseCases.CustomerUseCases
                 request.Country,
                 request.QuoteSpread);
 
+            var apiKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+
+            var pepper = configuration["Security:ApiKeyPepper"] ?? string.Empty;
+            var hash = ComputeSha256(apiKey + pepper);
+
+            var customerApiKey = new CustomerApiKey(customer.Id, hash);
+            await apiKeyRepository.AddAsync(customerApiKey);
+
             await customerRepository.AddAsync(customer);
             return customer;
+        }
+
+        private static string ComputeSha256(string input)
+        {
+            using var sha = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(input);
+            var hash = sha.ComputeHash(bytes);
+            return Convert.ToHexString(hash);
         }
     }
 }

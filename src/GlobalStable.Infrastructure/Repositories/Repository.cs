@@ -21,6 +21,15 @@ public class Repository<T>(ServiceDbContext dbContext)
             .SingleOrDefaultAsync(e => EF.Property<long>(e, "Id") == id);
     }
     
+    public async Task<T?> GetByCustomerIdAndIdAsync(long id, long customerId)
+    {
+        return await dbContext.Set<T>()
+            .AsNoTracking()
+            .SingleOrDefaultAsync(e => 
+                EF.Property<long>(e, "Id") == id &&
+                EF.Property<long>(e, "CustomerId") == customerId);
+    }
+    
     public async Task<PagedResult<T>> GetByAccountIdAsync(
         long accountId,
         int page,
@@ -46,14 +55,6 @@ public class Repository<T>(ServiceDbContext dbContext)
     public async Task UpdateAsync(T entity)
     {
         dbContext.Set<T>().Update(entity);
-        await dbContext.SaveChangesAsync();
-    }
-
-    public async Task RemoveByIdAsync(long id)
-    {
-        var entity = await GetByIdAsync(id);
-        if (entity is null) return;
-        dbContext.Set<T>().Remove(entity);
         await dbContext.SaveChangesAsync();
     }
 

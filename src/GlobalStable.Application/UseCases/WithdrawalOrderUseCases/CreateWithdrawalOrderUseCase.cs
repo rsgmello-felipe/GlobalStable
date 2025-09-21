@@ -30,8 +30,7 @@ public class CreateWithdrawalOrderUseCase(
 
     public async Task<Result<WithdrawalOrderResponse>> ExecuteAsync(
         CreateWithdrawalOrderRequest request,
-        long accountId,
-        string username)
+        long accountId)
     {
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
         try
@@ -80,7 +79,7 @@ public class CreateWithdrawalOrderUseCase(
                 receiverAccountKey: request.ReceiverAccountKey,
                 receiverWalletAddress: request.ReceiverWalletAddress,
                 blockchainNetworkId: request.ReceiverBlockchain,
-                createdBy: username);
+                createdBy: "System");
 
             await withdrawalOrderRepository.AddAsync(withdrawalOrder);
 
@@ -91,7 +90,7 @@ public class CreateWithdrawalOrderUseCase(
                     account.Currency.Code,
                     withdrawalOrder.Id,
                     TransactionType.Debit,
-                    TransactionOrderType.Withdrawal.ToString()),
+                    nameof(TransactionOrderType.Withdrawal)),
                 account.CustomerId,
                 accountId);
 

@@ -17,12 +17,10 @@ public static class UseCasesInjection
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
         services.AddScoped<CreateAccountUseCase>();
-        services.AddScoped<DeleteAccountUseCase>();
         services.AddScoped<GetAccountsByCustomerUseCase>();
         services.AddScoped<UpdateAccountUseCase>();
 
         services.AddScoped<CreateCustomerUseCase>();
-        services.AddScoped<DeleteCustomerUseCase>();
         services.AddScoped<UpdateCustomerUseCase>();
         
         services.AddScoped<CreateDepositOrderUseCase>();

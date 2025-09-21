@@ -25,9 +25,7 @@ public class CreateDepositOrderUseCase(
 {
     public async Task<Result<DepositOrderResponse>> ExecuteAsync(
         CreateDepositOrderRequest request,
-        long accountId,
-        string userId,
-        string? originHeader)
+        long accountId)
     {
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
@@ -61,7 +59,7 @@ public class CreateDepositOrderUseCase(
                 statusId: pendingStatus.Id,
                 bankReference: null,
                 expireAt: expireAt,
-                createdBy: userId,
+                createdBy: "System",
                 e2eId: null,
                 statusDescription: null);
 

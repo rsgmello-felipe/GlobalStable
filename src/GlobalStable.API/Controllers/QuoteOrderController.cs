@@ -4,12 +4,14 @@ using GlobalStable.Application.ApiRequests;
 using GlobalStable.Application.ApiResponses;
 using GlobalStable.Application.UseCases.QuoteOrderUseCases;
 using GlobalStable.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlobalStable.API.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/customer/{customerId:long}/orders/quote")]
+[Authorize(Policy = "SameCustomer")]
 [ApiVersion("1.0")]
 public class QuoteOrderController : ControllerBase
 {

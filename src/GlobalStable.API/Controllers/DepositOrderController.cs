@@ -4,12 +4,14 @@ using GlobalStable.Application.ApiRequests;
 using GlobalStable.Application.ApiResponses;
 using GlobalStable.Application.UseCases.DepositUseCases;
 using GlobalStable.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlobalStable.API.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/customer/{customerId:long}/orders/deposit")]
+[Authorize(Policy = "SameCustomer")]
 [ApiVersion("1.0")]
 public class DepositOrderController() : ControllerBase
 {
@@ -17,23 +19,10 @@ public class DepositOrderController() : ControllerBase
     [ActionName(nameof(CreateDepositOrder))]
     public async Task<IResult> CreateDepositOrder(
         [FromServices] CreateDepositOrderUseCase useCase,
-        [FromHeader(Name = "Authorization")] string authorization,
-        [FromHeader(Name = "X-Origin")] string? originHeader,
         [FromBody] CreateDepositOrderRequest request,
         [FromRoute] long accountId)
     {
-        var token = authorization.Substring("Bearer ".Length).Trim();
-
-        var handler = new JwtSecurityTokenHandler();
-        if (!handler.CanReadToken(token))
-        {
-            return Results.Unauthorized();
-        }
-
-        var jwtToken = handler.ReadJwtToken(token);
-        var username = jwtToken.Claims.FirstOrDefault(c => UserIdentifiers.FullSet.Contains(c.Type))?.Value;
-
-        var result = await useCase.ExecuteAsync(request, accountId, username!, originHeader);
+        var result = await useCase.ExecuteAsync(request, accountId);
 
         return result.IsFailed
             ? Results.BadRequest(new BaseApiResponse<string>(

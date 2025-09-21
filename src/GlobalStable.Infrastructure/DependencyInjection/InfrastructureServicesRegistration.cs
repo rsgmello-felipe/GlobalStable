@@ -1,3 +1,4 @@
+using GlobalStable.Application.UseCases.CustomerUseCases;
 using GlobalStable.Domain.Interfaces.Messaging;
 using GlobalStable.Domain.Interfaces.Repositories;
 using GlobalStable.Infrastructure.Caching;
@@ -67,6 +68,7 @@ namespace GlobalStable.Infrastructure.DependencyInjection
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IPendingTransactionRepository, PendingTransactionRepository>();
             services.AddScoped<IBalanceSnapshotRepository, BalanceSnapshotRepository>();
+            services.AddScoped<ICustomerApiKeyRepository, CustomerApiKeyRepository>();
 
             services.AddMemoryCache();
 
