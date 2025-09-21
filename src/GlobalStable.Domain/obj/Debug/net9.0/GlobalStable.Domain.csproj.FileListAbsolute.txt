@@ -10,3 +10,4 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\refint\GlobalStable.Domain.dll
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.pdb
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\ref\GlobalStable.Domain.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Domain\obj\Debug\net9.0\GlobalStable.Domain.sourcelink.json

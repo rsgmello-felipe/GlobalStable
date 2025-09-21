@@ -217,3 +217,4 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Tests\obj\Debug\net9.0\
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Tests\obj\Debug\net9.0\GlobalStable.Tests.pdb
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Tests\obj\Debug\net9.0\GlobalStable.Tests.genruntimeconfig.cache
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Tests\obj\Debug\net9.0\ref\GlobalStable.Tests.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Tests\obj\Debug\net9.0\GlobalStable.Tests.sourcelink.json

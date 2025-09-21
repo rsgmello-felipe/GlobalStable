@@ -23,7 +23,6 @@
           "RabbitMQ.Client": "6.8.1",
           "Refit": "8.0.0",
           "Refit.HttpClientFactory": "8.0.0",
-          "StyleCop.Analyzers": "1.2.0-beta.556",
           "System.Linq.Dynamic.Core": "1.6.6"
         },
         "runtime": {
@@ -771,12 +770,6 @@
           }
         }
       },
-      "StyleCop.Analyzers/1.2.0-beta.556": {
-        "dependencies": {
-          "StyleCop.Analyzers.Unstable": "1.2.0.556"
-        }
-      },
-      "StyleCop.Analyzers.Unstable/1.2.0.556": {},
       "System.CodeDom/6.0.0": {
         "runtime": {
           "lib/net6.0/System.CodeDom.dll": {
@@ -1234,20 +1227,6 @@
       "sha512": "sha512-Uqc2OQHglqj9/FfGQ6RkKFkZfHySfZlfmbCl+hc+u2I/IqunfelQ7QJi7ZhvAJxUtu80pildVX6NPLdDaUffOw==",
       "path": "stackexchange.redis/2.7.27",
       "hashPath": "stackexchange.redis.2.7.27.nupkg.sha512"
-    },
-    "StyleCop.Analyzers/1.2.0-beta.556": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-llRPgmA1fhC0I0QyFLEcjvtM2239QzKr/tcnbsjArLMJxJlu0AA5G7Fft0OI30pHF3MW63Gf4aSSsjc5m82J1Q==",
-      "path": "stylecop.analyzers/1.2.0-beta.556",
-      "hashPath": "stylecop.analyzers.1.2.0-beta.556.nupkg.sha512"
-    },
-    "StyleCop.Analyzers.Unstable/1.2.0.556": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ==",
-      "path": "stylecop.analyzers.unstable/1.2.0.556",
-      "hashPath": "stylecop.analyzers.unstable.1.2.0.556.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",

@@ -82,3 +82,4 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Application\obj\Debug\n
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Application\obj\Debug\net9.0\refint\GlobalStable.Application.dll
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Application\obj\Debug\net9.0\GlobalStable.Application.pdb
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Application\obj\Debug\net9.0\ref\GlobalStable.Application.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Application\obj\Debug\net9.0\GlobalStable.Application.sourcelink.json

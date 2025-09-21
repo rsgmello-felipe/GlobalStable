@@ -82,3 +82,4 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Infrastructure\obj\Debu
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Infrastructure\obj\Debug\net9.0\GlobalStable.Infrastructure.pdb
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Infrastructure\obj\Debug\net9.0\GlobalStable.Infrastructure.genruntimeconfig.cache
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Infrastructure\obj\Debug\net9.0\ref\GlobalStable.Infrastructure.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.Infrastructure\obj\Debug\net9.0\GlobalStable.Infrastructure.sourcelink.json
