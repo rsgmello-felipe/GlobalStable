@@ -143,7 +143,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         [Frozen] IOptions<CallbackSettings> callbackSettings,
         [Frozen] ILogger<HandleCreatedWithdrawalUseCase> logger)
     {
-        A.CallTo(() => orderStatusRepository.GetByNameAsync(OrderStatuses.SentToConnector))
+        A.CallTo(() => orderStatusRepository.GetByNameAsync(OrderStatuses.PendingInBank))
             .Returns(Task.FromResult<OrderStatus?>(null));
 
         var autoExecuteProperty = typeof(Account).GetProperty("AutoExecuteWithdrawal");
@@ -165,7 +165,7 @@ public class HandleCreatedWithdrawalUseCaseTests
         var result = await sut.ExecuteAsync(withdrawalOrder);
 
         result.IsFailed.Should().BeTrue();
-        result.Errors[0].Message.Should().Be($"Order status '{OrderStatuses.SentToConnector}' not found.");
+        result.Errors[0].Message.Should().Be($"Order status '{OrderStatuses.PendingInBank}' not found.");
     }
 
     [Theory]

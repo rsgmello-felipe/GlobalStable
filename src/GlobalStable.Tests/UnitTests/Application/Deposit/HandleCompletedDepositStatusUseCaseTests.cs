@@ -54,72 +54,6 @@ public class HandleCompletedDepositStatusUseCaseTests
 
     [Theory]
     [CustomAutoData]
-    public async Task ShouldDeletePendingTransaction_WhenPreviousStatusIsProcessingRefund(
-        [Frozen] IDepositOrderRepository depositOrderRepository,
-        [Frozen] IOrderStatusRepository orderStatusRepository,
-        [Frozen] IOrderHistoryRepository orderHistoryRepository,
-        [Frozen] ITransactionEventPublisher transactionEventPublisher,
-        [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] ILogger<HandleCompletedDepositStatusUseCase> logger)
-    {
-        var depositOrder = CreateTestOrder();
-        var statusList = new List<OrderStatus>
-        {
-            new(7, OrderStatuses.Completed),
-            new(10, OrderStatuses.ProcessingRefund),
-        };
-
-        A.CallTo(() => orderStatusRepository.GetAllAsync()).Returns(statusList);
-        A.CallTo(() => orderHistoryRepository.GetDepositOrderHistory(depositOrder.Id)).Returns(new List<OrderHistory>
-        {
-            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 7, "test")
-            {
-                CreatedAt = DateTimeOffset.UtcNow,
-            },
-            new OrderHistory(null, depositOrder.Id, OrderType.Deposit, 10, "test")
-            {
-                CreatedAt = DateTimeOffset.UtcNow.AddMinutes(-1),
-            },
-        });
-
-        A.CallTo(() => orderStatusRepository.GetByIdAsync(10))
-            .Returns(new OrderStatus(10, OrderStatuses.ProcessingRefund));
-
-        var httpResponse = new HttpResponseMessage(HttpStatusCode.NoContent);
-        var deleteResponse = new ApiResponse<BaseApiResponse<DeletePendingTransactionResponse>>(
-            httpResponse,
-            new BaseApiResponse<DeletePendingTransactionResponse>(),
-            new RefitSettings());
-
-        A.CallTo(() => transactionServiceClient.DeletePendingTransactionAsync(
-                depositOrder.CustomerId,
-                depositOrder.AccountId,
-                depositOrder.Id))
-
-            .Returns(deleteResponse);
-
-        var sut = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
-            orderStatusRepository,
-            orderHistoryRepository,
-            transactionEventPublisher,
-            transactionServiceClient,
-            logger,
-            CreateInMemoryDb());
-
-        var result = await sut.ExecuteAsync(depositOrder);
-
-        result.IsSuccess.Should().BeTrue();
-        A.CallTo(() => transactionServiceClient.DeletePendingTransactionAsync(
-                depositOrder.CustomerId,
-                depositOrder.AccountId,
-                depositOrder.Id))
-
-            .MustHaveHappenedOnceExactly();
-    }
-
-    [Theory]
-    [CustomAutoData]
     public async Task ShouldCreateTransactions_WhenPreviousStatusIsPendingDeposit(
         Currency currency,
         [Frozen] IDepositOrderRepository depositOrderRepository,
@@ -155,11 +89,9 @@ public class HandleCompletedDepositStatusUseCaseTests
             .Returns(new OrderStatus(5, OrderStatuses.PendingDeposit));
 
         var sut = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
             orderStatusRepository,
             orderHistoryRepository,
             transactionEventPublisher,
-            transactionServiceClient,
             logger,
             CreateInMemoryDb());
 
@@ -206,11 +138,9 @@ public class HandleCompletedDepositStatusUseCaseTests
         });
 
         var sut = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
             orderStatusRepository,
             orderHistoryRepository,
             transactionEventPublisher,
-            transactionServiceClient,
             logger,
             CreateInMemoryDb());
 

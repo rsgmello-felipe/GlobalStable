@@ -33,12 +33,12 @@ public class HandleCreatedWithdrawalUseCase(
 
             var account = await accountRepository.GetByIdAsync(withdrawalOrder.AccountId);
 
-            var processingStatus = await orderStatusRepository.GetByNameAsync(OrderStatuses.SentToConnector);
+            var processingStatus = await orderStatusRepository.GetByNameAsync(OrderStatuses.PendingInBank);
             if (processingStatus is null)
             {
-                logger.LogError("Order status '{sentToConnector}' not found.", OrderStatuses.SentToConnector);
+                logger.LogError("Order status '{sentToConnector}' not found.", OrderStatuses.PendingInBank);
                 return Result.Fail<WithdrawalOrderResponse>(
-                    $"Order status '{OrderStatuses.SentToConnector}' not found.");
+                    $"Order status '{OrderStatuses.PendingInBank}' not found.");
             }
 
             var withdrawalRequest = new BrlProviderCreateWithdrawalRequest(

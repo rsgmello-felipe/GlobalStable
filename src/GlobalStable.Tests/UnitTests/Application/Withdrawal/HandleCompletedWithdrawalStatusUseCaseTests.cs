@@ -107,7 +107,7 @@ public class HandleCompletedWithdrawalStatusUseCaseTests
         var statuses = new List<OrderStatus>
         {
             new(7, OrderStatuses.Completed),
-            new(13, OrderStatuses.Blocked),
+            new(13, OrderStatuses.Created),
         };
 
         A.CallTo(() => orderStatusRepository.GetAllAsync()).Returns(statuses);
@@ -115,7 +115,7 @@ public class HandleCompletedWithdrawalStatusUseCaseTests
             .Returns(CreateOrderedHistory(withdrawalOrder.Id, 7, 13));
 
         A.CallTo(() => orderStatusRepository.GetByIdAsync(13))
-            .Returns(new OrderStatus(13, OrderStatuses.Blocked));
+            .Returns(new OrderStatus(13, OrderStatuses.Created));
 
 
         var sut = new HandleCompletedWithdrawalStatusUseCase(

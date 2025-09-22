@@ -63,9 +63,6 @@ public class HandleDepositStatusUpdatedUseCaseTests
         A.CallTo(() => orderStatusRepository.GetByIdAsync(7))
             .Returns(new OrderStatus(7, OrderStatuses.Completed));
 
-        A.CallTo(() => orderStatusRepository.GetByIdAsync(10))
-            .Returns(new OrderStatus(10, OrderStatuses.ProcessingRefund));
-
         var httpResponse = new HttpResponseMessage(HttpStatusCode.NoContent);
         var deleteResponse = new ApiResponse<BaseApiResponse<DeletePendingTransactionResponse>>(
             httpResponse,
@@ -80,11 +77,9 @@ public class HandleDepositStatusUpdatedUseCaseTests
             .Returns(deleteResponse);
 
         var handleCompleted = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
             orderStatusRepository,
             orderHistoryRepository,
             transactionEventPublisher,
-            transactionServiceClient,
             completedLogger,
             CreateInMemoryDb());
 
@@ -98,54 +93,6 @@ public class HandleDepositStatusUpdatedUseCaseTests
         var result = await sut.ExecuteAsync(new OrderEvent(depositOrder.Id));
 
         // assert
-        result.IsSuccess.Should().BeTrue();
-
-        A.CallTo(() => notificationPublisher.PublishDepositOrderFinishedAsync(
-                A<DepositOrderNotificationEvent>._, MessagingKeys.NotificationDepositOrder))
-            .MustHaveHappenedOnceExactly();
-    }
-
-    [Theory]
-    [CustomAutoData]
-    public async Task ShouldSucceed_WhenStatusIsReturned_AndHandlerSucceeds(
-        DepositOrder depositOrder,
-        Currency currency,
-        [Frozen] IDepositOrderRepository depositOrderRepository,
-        [Frozen] IOrderStatusRepository orderStatusRepository,
-        [Frozen] INotificationPublisher notificationPublisher,
-        [Frozen] ITransactionEventPublisher transactionEventPublisher,
-        [Frozen] ITransactionServiceClient transactionServiceClient,
-        [Frozen] IOrderHistoryRepository orderHistoryRepository,
-        [Frozen] ILogger<HandleCompletedDepositStatusUseCase> completedLogger,
-        [Frozen] ILogger<HandleDepositStatusUpdatedUseCase> logger)
-    {
-        depositOrder = SetOrderStatus(depositOrder, 11); // RETURNED
-        depositOrder = SetCurrency(depositOrder, currency);
-
-        A.CallTo(() => depositOrderRepository.GetByIdAsync(depositOrder.Id)).Returns(depositOrder);
-
-        A.CallTo(() => orderStatusRepository.GetByIdAsync(11))
-            .Returns(new OrderStatus(11, OrderStatuses.Returned));
-
-        var handleCompleted = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
-            orderStatusRepository,
-            orderHistoryRepository,
-            transactionEventPublisher,
-            transactionServiceClient,
-            completedLogger,
-            CreateInMemoryDb());
-
-        var sut = new HandleDepositStatusUpdatedUseCase(
-            depositOrderRepository,
-            orderStatusRepository,
-            notificationPublisher,
-            logger,
-            handleCompleted);
-
-        var result = await sut.ExecuteAsync(new OrderEvent(depositOrder.Id));
-
-        //assert
         result.IsSuccess.Should().BeTrue();
 
         A.CallTo(() => notificationPublisher.PublishDepositOrderFinishedAsync(
@@ -169,11 +116,9 @@ public class HandleDepositStatusUpdatedUseCaseTests
         A.CallTo(() => depositOrderRepository.GetByIdAsync(orderId)).Returns((DepositOrder?)null);
 
         var handleCompleted = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
             orderStatusRepository,
             orderHistoryRepository,
             transactionEventPublisher,
-            transactionServiceClient,
             completedLogger,
             CreateInMemoryDb());
 
@@ -211,11 +156,9 @@ public class HandleDepositStatusUpdatedUseCaseTests
         A.CallTo(() => depositOrderRepository.GetByIdAsync(depositOrder.Id)).Throws(new Exception("boom"));
 
         var handleCompleted = new HandleCompletedDepositStatusUseCase(
-            depositOrderRepository,
             orderStatusRepository,
             orderHistoryRepository,
             transactionEventPublisher,
-            transactionServiceClient,
             completedLogger,
             CreateInMemoryDb());
 

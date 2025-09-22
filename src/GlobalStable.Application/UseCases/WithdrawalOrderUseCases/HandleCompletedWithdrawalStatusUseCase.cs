@@ -45,8 +45,7 @@ public class HandleCompletedWithdrawalStatusUseCase(
 
             var previousStatus = await orderStatusRepository.GetByIdAsync(previousStatusId.Value);
 
-            if (previousStatus.Name.Equals(OrderStatuses.Processing) ||
-                previousStatus.Name.Equals(OrderStatuses.PendingTreasury))
+            if (previousStatus.Name.Equals(OrderStatuses.Processing))
             {
                 // withdrawal Transaction
                 await transactionEventPublisher.PublishTransactionCreatedAsync(

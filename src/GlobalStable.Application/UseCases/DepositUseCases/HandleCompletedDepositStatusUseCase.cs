@@ -5,18 +5,15 @@ using GlobalStable.Domain.Enums;
 using GlobalStable.Domain.Events;
 using GlobalStable.Domain.Interfaces.Messaging;
 using GlobalStable.Domain.Interfaces.Repositories;
-using GlobalStable.Infrastructure.HttpClients;
 using GlobalStable.Infrastructure.Persistence;
 using Microsoft.Extensions.Logging;
 
 namespace GlobalStable.Application.UseCases.DepositUseCases;
 
 public class HandleCompletedDepositStatusUseCase(
-    IDepositOrderRepository depositOrderRepository,
     IOrderStatusRepository orderStatusRepository,
     IOrderHistoryRepository orderHistoryRepository,
     ITransactionEventPublisher transactionEventPublisher,
-    ITransactionServiceClient transactionServiceClient,
     ILogger<HandleCompletedDepositStatusUseCase> logger,
     ServiceDbContext dbContext)
 {
@@ -43,14 +40,6 @@ public class HandleCompletedDepositStatusUseCase(
 
             switch (previousStatus.Name)
             {
-                //REFUND ERROR
-                case OrderStatuses.ProcessingRefund:
-                    await transactionServiceClient.DeletePendingTransactionAsync(
-                        depositOrder.CustomerId,
-                        depositOrder.AccountId,
-                        depositOrder.Id);
-
-                    return Result.Ok();
                 case OrderStatuses.PendingDeposit:
                     // Credit Transaction
                     await transactionEventPublisher.PublishTransactionCreatedAsync(
