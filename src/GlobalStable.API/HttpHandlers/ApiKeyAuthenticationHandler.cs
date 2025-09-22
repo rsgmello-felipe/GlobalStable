@@ -4,11 +4,11 @@ using GlobalStable.Domain.Entities;
 using GlobalStable.Infrastructure.Persistence;
 using GlobalStable.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ISystemClock = Microsoft.AspNetCore.Authentication.ISystemClock;
 
 namespace GlobalStable.Infrastructure.HttpHandlers;
 

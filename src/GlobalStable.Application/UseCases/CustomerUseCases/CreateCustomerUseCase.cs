@@ -16,7 +16,7 @@ namespace GlobalStable.Application.UseCases.CustomerUseCases
         ILogger<CreateCustomerUseCase> logger
         )
     {
-        public async Task<Result<Customer>> ExecuteAsync(CreateCustomerRequest request)
+        public async Task<Result<CreateCustomerResponse>> ExecuteAsync(CreateCustomerRequest request)
         {
             var existingCustomer = await customerRepository.GetByTaxIdAsync(request.TaxId, request.Country);
             if (existingCustomer != null)
@@ -40,7 +40,14 @@ namespace GlobalStable.Application.UseCases.CustomerUseCases
             await apiKeyRepository.AddAsync(customerApiKey);
 
             await customerRepository.AddAsync(customer);
-            return customer;
+            var response = new CreateCustomerResponse(
+                customer.Id,
+                customer.Name,
+                customer.TaxId,
+                customer.Country,
+                customer.QuoteSpread,
+                apiKey);
+            return Result.Ok(response);
         }
 
         private static string ComputeSha256(string input)

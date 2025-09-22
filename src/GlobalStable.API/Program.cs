@@ -56,8 +56,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.Services.ApplyDatabaseMigrations();
 
-app.UseAuditMiddleware();
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();

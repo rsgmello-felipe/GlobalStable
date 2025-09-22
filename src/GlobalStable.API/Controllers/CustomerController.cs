@@ -11,11 +11,11 @@ namespace GlobalStable.API.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/customers")]
-[Authorize(Policy = "SameCustomer")]
 [ApiVersion("1.0")]
 public class CustomerController : ControllerBase
 {
     [HttpGet("{customerId:long}")]
+    [Authorize(Policy = "SameCustomer")]
     [ActionName(nameof(GetCustomer))]
     public async Task<IResult> GetCustomer(
         [FromServices] GetCustomerUseCase useCase,

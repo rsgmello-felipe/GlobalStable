@@ -119,6 +119,27 @@
           }
         }
       },
+      "Microsoft.AspNetCore.Authorization/9.0.3": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "9.0.3",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.3",
+          "Microsoft.Extensions.Options": "9.0.3"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authorization.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.325.11220"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Metadata/9.0.3": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Metadata.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.325.11220"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore/9.0.3": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Abstractions": "9.0.3",
@@ -1331,6 +1352,7 @@
       "GlobalStable.Infrastructure/1.0.0": {
         "dependencies": {
           "GlobalStable.Domain": "1.0.0",
+          "Microsoft.AspNetCore.Authorization": "9.0.3",
           "Microsoft.EntityFrameworkCore": "9.0.3",
           "Microsoft.EntityFrameworkCore.Relational": "9.0.3",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "9.0.2",
@@ -1415,6 +1437,20 @@
       "sha512": "sha512-VWacGzOyN9k7LOKqiNLnFvqTDLbFvepHlINdM3pPTD0YWI+a+VW/Q9gcx4gmJDpDZ32cAsczz5vmRjLCL5UOhA==",
       "path": "fluentresults/3.16.0",
       "hashPath": "fluentresults.3.16.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authorization/9.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3lPGz48SKHAAHY3sMGx+71KeyV6fjBHPGbSoBxwjt9WK4+Lr0/MHi6cWyXZVohWoxFmqq/2hJ39LUryn7w65EA==",
+      "path": "microsoft.aspnetcore.authorization/9.0.3",
+      "hashPath": "microsoft.aspnetcore.authorization.9.0.3.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Metadata/9.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-urkTc92CKvbZExxTCimJEsRnnhuVx3OAvCeFFxAy6a9ED7XIjo8Y1WfDNLpB4nfdGw2C9YsmI+A5Kow0ZHSBvQ==",
+      "path": "microsoft.aspnetcore.metadata/9.0.3",
+      "hashPath": "microsoft.aspnetcore.metadata.9.0.3.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/9.0.3": {
       "type": "package",

@@ -147,3 +147,5 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\obj\
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\obj\Debug\net9.0\GlobalStable.BackgroundServices.genruntimeconfig.cache
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\obj\Debug\net9.0\ref\GlobalStable.BackgroundServices.dll
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\obj\Debug\net9.0\GlobalStable.BackgroundServices.sourcelink.json
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\bin\Debug\net9.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.BackgroundServices\bin\Debug\net9.0\Microsoft.AspNetCore.Metadata.dll

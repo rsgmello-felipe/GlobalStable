@@ -240,3 +240,5 @@ C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\obj\Debug\net9.0\Gl
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\obj\Debug\net9.0\GlobalStable.API.genruntimeconfig.cache
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\obj\Debug\net9.0\ref\GlobalStable.API.dll
 C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\obj\Debug\net9.0\GlobalStable.API.sourcelink.json
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\felip\Desktop\GlobalStableCode\src\GlobalStable.API\bin\Debug\net9.0\Microsoft.AspNetCore.Metadata.dll
